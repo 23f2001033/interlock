@@ -34,7 +34,7 @@ def _v1(repo: Path, x: str, y: str, state_dir: Path, wt_path: Path) -> dict:
         gitops.remove_worktree(repo, wt)
 
 
-def evaluate(repo: Path, suite_path: Path, mode: str, state_dir: Path, fresh: bool = True) -> dict:
+def evaluate(repo: Path, suite_path: Path, mode: str, state_dir: Path, fresh: bool = True, label: str = "") -> dict:
     suite = json.loads(suite_path.read_text(encoding="utf-8"))
     rows = []
     with neatlogs.trace(f"interlock.eval.{mode}", kind="WORKFLOW", **{"interlock.mode": mode}) as root:
@@ -61,7 +61,7 @@ def evaluate(repo: Path, suite_path: Path, mode: str, state_dir: Path, fresh: bo
         fn = sum(not r["flagged"] and r["truth"] == "interference" for r in rows)
         fp = sum(r["flagged"] and r["truth"] == "benign" for r in rows)
         tn = sum(not r["flagged"] and r["truth"] == "benign" for r in rows)
-        metrics = {"mode": mode, "pairs": len(rows), "tp": tp, "fn": fn, "fp": fp, "tn": tn,
+        metrics = {"mode": mode, "label": label, "pairs": len(rows), "tp": tp, "fn": fn, "fp": fp, "tn": tn,
                    "recall": round(tp / (tp + fn), 3) if tp + fn else None,
                    "precision": round(tp / (tp + fp), 3) if tp + fp else None,
                    "cost_usd": round(sum(r.get("cost_usd", 0) for r in rows), 4),
@@ -72,5 +72,5 @@ def evaluate(repo: Path, suite_path: Path, mode: str, state_dir: Path, fresh: bo
     out = {"metrics": metrics, "rows": rows, "suite": str(suite_path), "at": time.strftime("%Y-%m-%d %H:%M:%S")}
     dest = suite_path.parent / "results"
     dest.mkdir(exist_ok=True)
-    (dest / f"{mode}-{time.strftime('%Y%m%d-%H%M%S')}.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
+    (dest / f"{label or mode}-{time.strftime('%Y%m%d-%H%M%S')}.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     return out

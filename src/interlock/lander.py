@@ -7,6 +7,7 @@ re-check only those. Ref updates are compare-and-swap, so a concurrent push is n
 """
 
 import json
+import tempfile
 import time
 from dataclasses import asdict
 from pathlib import Path
@@ -23,8 +24,9 @@ def _source_entities(repo: Path, base: str, head: str) -> list[dict]:
     return [e for e in entire.entity_changes(repo, base, head) if not e["path"].startswith("tests/")]
 
 
-def plan(repo: Path, branches: list[str], into: str) -> dict:
-    """Order branches so the ones that change widely-used code (providers) land first."""
+def plan(repo: Path, branches: list[str], into: str, keep_order: bool = False) -> dict:
+    """Order branches so the ones that change widely-used code (providers) land first
+    (or keep the given order, e.g. a queue that is already prioritised)."""
     with neatlogs.trace("plan", kind="AGENT") as span:
         rows = []
         for b in branches:
@@ -35,7 +37,7 @@ def plan(repo: Path, branches: list[str], into: str) -> dict:
         for r in rows:
             r["shares_with"] = sorted(o["branch"] for o in rows
                                       if o is not r and set(o["entities"]) & set(r["entities"]))
-        order = [r["branch"] for r in sorted(rows, key=lambda r: (-r["dependents"], r["branch"]))]
+        order = branches if keep_order else [r["branch"] for r in sorted(rows, key=lambda r: (-r["dependents"], r["branch"]))]
         span.set_attribute("interlock.order", " -> ".join(order))
         return {"order": order, "branches": rows}
 
@@ -45,15 +47,23 @@ def _drift(repo: Path, expected: str, actual: str, remaining: list[str]) -> dict
     with neatlogs.trace("drift", kind="AGENT") as span:
         commits = gitops.git(repo, "log", "--format=%h %an: %s", f"{expected}..{actual}").out.strip().splitlines()
         touched = {e["name"] for e in _source_entities(repo, expected, actual)}
-        affected = []
-        for b in remaining:
-            base = gitops.merge_base(repo, b, actual)
-            mine = {e["name"] for e in _source_entities(repo, base, b)}
-            if mine & touched:
-                affected.append(b)
+        affected, why = [], {}
+        wt = gitops.add_worktree(repo, Path(tempfile.mkdtemp(prefix="interlock-drift-")) / "scan", actual)
+        try:
+            for b in remaining:
+                base = gitops.merge_base(repo, b, actual)
+                mine = {e["name"] for e in _source_entities(repo, base, b)}
+                same = mine & touched
+                # New code on the target that calls something this branch changes depends on its behavior.
+                calls = {n for n in mine for c in entire.callers(wt, n) if c["name"] in touched}
+                if same or calls:
+                    affected.append(b)
+                    why[b] = {"changes_same": sorted(same), "new_code_depends_on": sorted(calls)}
+        finally:
+            gitops.remove_worktree(repo, wt)
         span.set_attribute("interlock.drift_commits", len(commits))
         span.set_attribute("interlock.affected", ",".join(affected))
-        return {"commits": commits, "entities": sorted(touched), "affected": affected,
+        return {"commits": commits, "entities": sorted(touched), "affected": affected, "why": why,
                 "unaffected": [b for b in remaining if b not in affected]}
 
 
@@ -80,7 +90,7 @@ def _land_one(repo: Path, branch: str, into: str, old: str, wt_path: Path) -> tu
 
 
 def land(repo: Path, branches: list[str], into: str, state_dir: Path, rounds: int = 3,
-         budget_usd: float = 2.0) -> dict:
+         budget_usd: float = 2.0, keep_order: bool = False) -> dict:
     started = time.time()
     run_id = "land-" + time.strftime("%Y%m%d-%H%M%S")
     run_dir = state_dir / "runs" / run_id
@@ -93,7 +103,7 @@ def land(repo: Path, branches: list[str], into: str, state_dir: Path, rounds: in
         (run_dir / "state.json").write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     with neatlogs.trace("interlock.land", kind="WORKFLOW", **{"interlock.run": run_id, "interlock.goal": state["goal"]}) as root:
-        p = plan(repo, branches, into)
+        p = plan(repo, branches, into, keep_order)
         state["plan"] = p
         event("plan", order=p["order"])
         expected = gitops.rev(repo, into)

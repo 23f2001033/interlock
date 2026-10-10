@@ -82,6 +82,7 @@ def land(
     repo: Path = typer.Option(Path("."), help="Target git repository"),
     rounds: int = typer.Option(3, help="Max fix rounds per branch before escalating"),
     budget: float = typer.Option(2.0, help="Max LLM spend per proof/coordination, USD"),
+    keep_order: bool = typer.Option(False, help="Land in the given order instead of providers-first"),
     state_dir: Path = typer.Option(Path(".interlock"), help="Where runs, cache and worktrees live"),
 ):
     """Goal mode: land all branches onto the target, proving each integration and coordinating agents."""
@@ -90,7 +91,8 @@ def land(
     from interlock.tracing import init_tracing
 
     init_tracing(tags=["land"])
-    st = run_land(repo.resolve(), branches, into, state_dir.resolve(), rounds=rounds, budget_usd=budget)
+    st = run_land(repo.resolve(), branches, into, state_dir.resolve(), rounds=rounds, budget_usd=budget,
+                  keep_order=keep_order)
     typer.echo(f"\nInterlock {st['run_id']}: goal '{st['goal']}' -> {st['status'].upper()} in {st['seconds']}s")
     for e in st["events"]:
         info = {k: v for k, v in e.items() if k not in ("at", "event")}
@@ -104,6 +106,7 @@ def eval_cmd(
     suite: Path = typer.Option(Path("eval/scenarios.json"), help="Labelled scenario file"),
     repo: Path = typer.Option(Path("."), help="Target git repository"),
     fresh: bool = typer.Option(True, help="Bypass the cache for test synthesis (honest cost numbers)"),
+    label: str = typer.Option("", help="Version label for this run, e.g. v2.1 (tagged in neatlogs)"),
     state_dir: Path = typer.Option(Path(".interlock"), help="Where runs, cache and worktrees live"),
 ):
     """Score v1 (merge queue) or v2 (Interlock) on labelled branch pairs."""
@@ -111,8 +114,8 @@ def eval_cmd(
     from interlock.evaluate import evaluate
     from interlock.tracing import init_tracing
 
-    init_tracing(tags=["eval", mode])
-    out = evaluate(repo.resolve(), suite.resolve(), mode, state_dir.resolve(), fresh=fresh)
+    init_tracing(tags=["eval", mode] + ([label] if label else []))
+    out = evaluate(repo.resolve(), suite.resolve(), mode, state_dir.resolve(), fresh=fresh, label=label)
     m = out["metrics"]
     typer.echo(f"\n{mode}: recall {m['recall']} precision {m['precision']} (tp {m['tp']} fn {m['fn']} fp {m['fp']} tn {m['tn']})"
                f" cost ${m['cost_usd']} time {m['seconds']}s")
