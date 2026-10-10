@@ -43,7 +43,7 @@ Reference: "Passes Alone, Fails Together: Benchmarking Semantic Coordination in 
 
 ## 4. State: ledger
 
-SQLite at `.interlock/ledger.db`. Tables: `runs`, `change_sets` (branch, head sha, base sha, intent json), `pairs` (status: candidate|cleared|textual|proven|resolved|escalated), `proofs` (test path and content, results on X/base/merge), `rounds`, `messages`, `llm_calls` (model, tokens, cost, cache hit).
+Per-run state file `.interlock/runs/<run>/state.json` (prove report, decision, rounds, steps); planned SQLite ledger for goal mode. Tables (planned): `runs`, `change_sets` (branch, head sha, base sha, intent json), `pairs` (status: candidate|cleared|textual|proven|resolved|escalated), `proofs` (test path and content, results on X/base/merge), `rounds`, `messages`, `llm_calls` (model, tokens, cost, cache hit).
 
 Every step is keyed by (run, pair, head SHAs) and is idempotent, so `interlock land --resume <run>` continues after a crash.
 

@@ -48,6 +48,33 @@ def prove(
 
 
 @app.command()
+def resolve(
+    x: str = typer.Argument(..., help="First branch"),
+    y: str = typer.Argument(..., help="Second branch"),
+    repo: Path = typer.Option(Path("."), help="Target git repository"),
+    rounds: int = typer.Option(3, help="Max fix rounds before escalating"),
+    budget: float = typer.Option(1.0, help="Max LLM spend for this run, USD"),
+    resume: str = typer.Option(None, help="Resume an earlier run id"),
+    state_dir: Path = typer.Option(Path(".interlock"), help="Where runs, cache and worktrees live"),
+):
+    """Prove interference, then coordinate the responsible agent until both intents hold (or escalate)."""
+    load_dotenv()
+    from interlock.coordinator import resolve as run_resolve
+    from interlock.tracing import init_tracing
+
+    init_tracing(tags=["resolve"])
+    st = run_resolve(repo.resolve(), x, y, state_dir.resolve(), rounds=rounds, budget_usd=budget, resume=resume)
+    typer.echo(f"\nInterlock run {st['run_id']}: {x} × {y} -> {st['status'].upper()}")
+    if st.get("adapts"):
+        typer.echo(f"  adapts: {st['adapts']} ({st.get('reason', '')})")
+    for r in st.get("rounds", []):
+        state = "resolved" if r["intent_tests_ok"] and r["suite_ok"] else f"still failing: {', '.join(r['failed'][:4])}"
+        typer.echo(f"  round {r['round']}: head {r['head']} -> {state}")
+    typer.echo(f"  Interlock LLM cost: ${st.get('llm_cost_usd', 0):.4f}")
+    typer.echo(f"  state: {state_dir / 'runs' / st['run_id'] / 'state.json'}")
+
+
+@app.command()
 def version():
     """Print the version."""
     typer.echo("interlock 0.1.0")

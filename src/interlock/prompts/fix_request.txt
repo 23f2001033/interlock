@@ -1,0 +1,18 @@
+Interlock here: an automated integration check for this repository.
+
+Your branch `{own}` and the branch `{other}` (developed in parallel by another agent) interfere:
+each passes its own tests, but they fail together. `{other}` is landing first, so please integrate it.
+
+What `{other}` changed (its task: {other_task}):
+{other_summary}
+
+Do this:
+1. Run `git merge {other}` and resolve any conflicts, adapting YOUR feature to the new behavior.
+   Keep both features working.
+2. Add these intent tests at the paths shown. They must pass after the merge:
+
+{tests}
+
+3. Run `uv run pytest -q`. All tests must pass. Then commit the merge with a message that
+   references both issues.
+{previous_failure}

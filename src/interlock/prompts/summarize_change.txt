@@ -1,0 +1,11 @@
+Summarize what this code change does to shared behavior that OTHER code may depend on
+(units, signatures, return values, constants, semantics). 3 short bullet points, concrete
+(name the functions/constants and the before -> after). No preamble.
+
+Task the author was given:
+{intent}
+
+Diff:
+```diff
+{diff}
+```

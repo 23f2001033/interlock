@@ -1,0 +1,19 @@
+Two code changes were developed in parallel and interfere when combined. Decide which ONE side
+should adapt its branch so that both intents hold after integration.
+
+Change A ({a}) was asked to:
+{a_intent}
+
+Change B ({b}) was asked to:
+{b_intent}
+
+Entities both changes touch: {overlap}
+
+Proof results (a test encoding each side's intent, run on the combination):
+{proofs}
+
+Guidance: the side that changed a shared contract on purpose (as its task requires) usually lands
+first; the side that builds on the old contract adapts. If a side changed shared behavior that its
+task did not ask for, that side adapts instead.
+
+Reply with JSON only: {"adapts": "<A or B>", "reason": "<one sentence>"}
