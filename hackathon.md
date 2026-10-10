@@ -84,6 +84,27 @@ Status of each item:
   - **Both directions proven as interference.** The synthesized intent tests pass on their own branch, fail on the base and fail on the merge. Root error: `NameError: name 'round_money' is not defined`. The resolver kept #2's fee code, which calls `round_money`, but lost the import that #1 had removed.
   - Cost: $0.0623, 47 s.
 
+### 2026-10-11 01:45-02:00: L1 closed loop resolves a real interference (completed)
+- Built `interlock resolve X Y` (`coordinator.py`). The loop:
+  1. prove;
+  2. decide who adapts (`claude-haiku`);
+  3. summarize the other side's change (`nova-lite`);
+  4. write a fix request with both intent tests attached;
+  5. **resume the responsible agent's own Claude Code session**, whose id comes from `entire why`, in that branch's worktree;
+  6. link the agent's new commit to its session (`entire session attach`);
+  7. re-verify on the new head with the saved intent tests plus the full suite, never trusting the agent's claim;
+  8. go to the next round with the failure output, up to N rounds, then escalate.
+
+  Run state is saved after every step (`state.json`), and `--resume` continues a run.
+- **Run `20261011-013837`, agent/issue-2 × agent/issue-1 → RESOLVED in 1 round** (evidence: `evidence/runs/20261011-013837/state.json`, which contains the full message and reply):
+  - Interference proven in both directions, re-using the cached LLM results ($0).
+  - Decision: agent/issue-2 adapts. Reason: #1 changed the money contract to integer cents on purpose, and #2 built on the old float contract.
+  - The fix request went to session `b5459f40` (the agent that wrote the fee). That agent merged `agent/issue-1`, moved the fee to cents (150 cents under 1500 cents) and committed `5418237`. Its Entire checkpoint is `01M4KPZYFV1T68YZETD7XJ897W`.
+  - **Tests run (by Interlock on the new head):** intent tests passed and the full suite passed (30 tests).
+  - The agent also reported a remaining cross-feature gap: `Order`/receipt has no `fee` line, so the receipt lines add up to $1.50 less than the total.
+  - Interlock's own LLM cost was $0.0011. The agent reported an equivalent cost of $0.85. 01:39:02 → 01:40:24.
+- Pushed `agent/issue-1..3` and **4 Entire checkpoint refs** to `github.com/23f2001033/interlock-demo-shop`.
+
 ### Planned next
 - Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
 - Builder confirms creating the public GitHub repos, then push.
