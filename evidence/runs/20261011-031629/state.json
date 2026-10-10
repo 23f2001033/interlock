@@ -1,0 +1,170 @@
+{
+  "run_id": "20261011-031629",
+  "x": "agent/issue-1",
+  "y": "interlock-drift",
+  "report": {
+    "run_id": "20261011-031629",
+    "repo": "C:\\Users\\Aman\\Desktop\\NeatHack\\interlock-demo-shop",
+    "x": "agent/issue-1",
+    "y": "interlock-drift",
+    "base": "7950d868b7",
+    "resolution": "llm",
+    "conflicted_files": [
+      "tests/test_pricing.py"
+    ],
+    "overlap": [
+      "Cart.subtotal",
+      "PaymentGateway.charge",
+      "price_of",
+      "round_money"
+    ],
+    "intents": {
+      "agent/issue-1": {
+        "sessions": [
+          {
+            "session_id": "38dab3b0-7514-44fb-b1c3-adb6af2f8650",
+            "checkpoint_id": "01M4KNS0TF70B4VB0GM2B406WN",
+            "agent": "Claude Code",
+            "model": "claude-opus-5-5",
+            "prompt": "# Represent money as integer cents end-to-end (#1)\n\nWe keep seeing 1-cent mismatches between quoted totals and what the gateway charges, because amounts are floats in dollars.\n\nSwitch the shop to integer cents everywhere: catalog prices, cart subtotal, shipping, tax, quote totals and order amounts should all be `int` cents. Convert to a dollar string only when displaying (receipts). Keep behavior the same for customers (same prices, same rounding of tax to the nearest cent). Update the tests.",
+            "commit": "c6b4dcac"
+          }
+        ],
+        "sampled_lines": 8,
+        "human_lines": 0
+      },
+      "interlock-drift": {
+        "sessions": [
+          {
+            "session_id": "15a641c0-f690-424c-8ff1-b78435cf9843",
+            "checkpoint_id": "01M4KTRC57RYSWS08S3JCYQCGQ",
+            "agent": "Claude Code",
+            "model": "claude-opus-5-5",
+            "prompt": "# Record the currency on payment charges (#5)\n\nFinance needs to know which currency each charge was made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currency explicitly. Add tests.",
+            "commit": "231a9ecd"
+          },
+          {
+            "session_id": "dd256102-fff2-4661-a27d-ad934c25d1e5",
+            "checkpoint_id": "01M4KTRB51MXA4AV8VM3Z33927",
+            "agent": "Claude Code",
+            "model": "claude-opus-5-5",
+            "prompt": "# Support Maharashtra (IN-MH) tax region (#4)\n\nWe are launching in Maharashtra. Add the `IN-MH` region with an 18% tax rate so carts can be quoted and ordered there. Add tests.",
+            "commit": "7bbc17d7"
+          }
+        ],
+        "sampled_lines": 7,
+        "human_lines": 2
+      }
+    },
+    "existing_tests_on_merge": {
+      "collected": true,
+      "passed": 31,
+      "failed": [
+        "tests.test_orders::test_order_in_maharashtra",
+        "tests.test_pricing::test_maharashtra_tax",
+        "tests.test_pricing::test_quote_in_maharashtra"
+      ]
+    },
+    "directions": [
+      {
+        "intent_of": "agent/issue-1",
+        "against": "interlock-drift",
+        "verdict": "holds",
+        "test": "\"\"\"Test that money is represented as integer cents end-to-end.\"\"\"\n\nfrom shop.cart import Cart\nfrom shop.money import format_money\nfrom shop.orders import place_order\nfrom shop.payments import PaymentGateway\nfrom shop.pricing import quote\n\n\ndef test_all_amounts_are_integer_cents():\n    \"\"\"Verify that catalog prices, cart subtotal, shipping, tax, and order totals are all int cents.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    cart.add(\"BAG-01\", 1)\n    \n    # Cart subtotal is int cents\n    subtotal = cart.subtotal()\n    assert isinstance(subtotal, int)\n    assert subtotal == 3998 + 995  # 2 * 1999 + 995\n    \n    # Quote breakdown is all int cents\n    q = quote(cart, \"US-CA\")\n    assert all(isinstance(v, int) for v in q.values())\n    assert q[\"subtotal\"] == 4993\n    assert q[\"shipping\"] == 500\n    assert q[\"tax\"] == 362  # 4993 * 0.0725 = 362.0425, rounded to 362\n    assert q[\"total\"] == 5855\n    \n    # Order amounts are int cents\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n    assert isinstance(order.subtotal, int)\n    assert isinstance(order.shipping, int)\n    assert isinstance(order.tax, int)\n    assert isinstance(order.total, int)\n    assert order.total == 5855\n    \n    # Payment gateway receives int cents\n    assert gateway.charges[0].amount_cents == 5855\n    assert isinstance(gateway.charges[0].amount_cents, int)\n\n\ndef test_no_one_cent_mismatches_with_tax_rounding():\n    \"\"\"Verify that tax rounding to nearest cent doesn't cause mismatches.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 1)  # 1999 cents\n    \n    q = quote(cart, \"US-CA\")\n    # 1999 * 0.0725 = 144.9275, rounds to 145\n    assert q[\"tax\"] == 145\n    \n    # Total should be exact: subtotal + shipping + tax\n    assert q[\"total\"] == q[\"subtotal\"] + q[\"shipping\"] + q[\"tax\"]\n    \n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n    \n    # Order total matches what was charged\n    assert order.total == gateway.charges[0].amount_cents\n\n\ndef test_format_money_displays_cents_as_dollars():\n    \"\"\"Verify that integer cents are correctly formatted for display.\"\"\"\n    assert format_money(0) == \"$0.00\"\n    assert format_money(1999) == \"$19.99\"\n    assert format_money(123450) == \"$1,234.50\"\n    assert format_money(500) == \"$5.00\"\n    assert format_money(5) == \"$0.05\"\n",
+        "on_own_branch": "passed",
+        "on_base": "failed",
+        "on_merge": "passed",
+        "failure": "",
+        "repairs": 0,
+        "model": "claude-haiku",
+        "confirmation": ""
+      },
+      {
+        "intent_of": "interlock-drift",
+        "against": "agent/issue-1",
+        "verdict": "holds",
+        "test": "\"\"\"Test that change X's intent holds: currency recording and Maharashtra support.\"\"\"\n\nimport pytest\n\nfrom shop.cart import Cart\nfrom shop.payments import PaymentGateway\nfrom shop.pricing import quote, tax_for\nfrom shop.orders import place_order\n\n\ndef test_charge_records_currency_with_default_usd():\n    \"\"\"Charges default to USD currency.\"\"\"\n    gateway = PaymentGateway()\n    charge_id = gateway.charge(\"cus_1\", 5000)\n    assert gateway.charges[0].currency == \"USD\"\n\n\ndef test_charge_records_explicit_currency():\n    \"\"\"Callers can pass explicit currency to charge().\"\"\"\n    gateway = PaymentGateway()\n    gateway.charge(\"cus_1\", 5000, currency=\"EUR\")\n    gateway.charge(\"cus_1\", 7000, \"GBP\")\n    assert [c.currency for c in gateway.charges] == [\"EUR\", \"GBP\"]\n\n\n@pytest.mark.parametrize(\"currency\", [\"usd\", \"US\", \"USDX\", \"\", \"U$D\", None])\ndef test_charge_rejects_invalid_currency(currency):\n    \"\"\"Invalid currency codes are rejected.\"\"\"\n    gateway = PaymentGateway()\n    with pytest.raises(ValueError):\n        gateway.charge(\"cus_1\", 5000, currency)\n\n\ndef test_maharashtra_tax_rate():\n    \"\"\"IN-MH region has 18% tax rate.\"\"\"\n    assert tax_for(10000, \"IN-MH\") == 1800\n\n\ndef test_quote_in_maharashtra():\n    \"\"\"Carts can be quoted in Maharashtra region.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    q = quote(cart, \"IN-MH\")\n    assert q[\"tax\"] == 7.2\n    assert q[\"total\"] == 52.18\n\n\ndef test_order_in_maharashtra():\n    \"\"\"Orders can be placed in Maharashtra region.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"IN-MH\", gateway)\n    assert order.region == \"IN-MH\"\n    assert order.tax == 7.2\n    assert order.total == 52.18\n    assert gateway.charges[0].amount_cents == 5218\n",
+        "on_own_branch": "passed",
+        "on_base": "failed",
+        "on_merge": "failed",
+        "failure": "                                   [100%]\n================================== FAILURES ===================================\n__________________________ test_quote_in_maharashtra __________________________\n\n    def test_quote_in_maharashtra():\n        \"\"\"Carts can be quoted in Maharashtra region.\"\"\"\n        cart = Cart()\n        cart.add(\"TEE-01\", 2)\n        q = quote(cart, \"IN-MH\")\n>       assert q[\"tax\"] == 7.2\nE       assert 720 == 7.2\n\ntests\\test_interlock_intent.py:44: AssertionError\n__________________________ test_order_in_maharashtra __________________________\n\n    def test_order_in_maharashtra():\n        \"\"\"Orders can be placed in Maharashtra region.\"\"\"\n        cart = Cart()\n        cart.add(\"TEE-01\", 2)\n        gateway = PaymentGateway()\n        order = place_order(cart, \"cus_1\", \"IN-MH\", gateway)\n        assert order.region == \"IN-MH\"\n>       assert order.tax == 7.2\nE       AssertionError: assert 720 == 7.2\nE        +  where 720 = Order(id='ORD-0001', customer_id='cus_1', region='IN-MH', lines=[OrderLine(sku='TEE-01', name='Logo t-shirt', qty=2, unit_price=1999, line_total=3998)], subtotal=3998, shipping=500, tax=720, total=5218, charge_id='ch_0001').tax\n\ntests\\test_interlock_intent.py:55: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_interlock_intent.py::test_quote_in_maharashtra - assert 720...\nFAILED tests/test_interlock_intent.py::test_order_in_maharashtra - AssertionE...\n2 failed, 9 passed in 0.09s\n",
+        "repairs": 1,
+        "model": "claude-haiku",
+        "confirmation": "representation_only"
+      }
+    ],
+    "llm_calls": 3,
+    "llm_cache_hits": 2,
+    "cost_usd": 0.046456,
+    "tokens_in": 5417,
+    "seconds": 44.3
+  },
+  "status": "resolved",
+  "rounds": [
+    {
+      "round": 1,
+      "message": "Interlock here: an automated integration check for this repository.\n\nYour branch `agent/issue-1` and the branch `interlock-drift` (developed in parallel by another agent) interfere:\neach passes its own tests, but they fail together. `interlock-drift` is landing first, so please integrate it.\n\nWhat `interlock-drift` changed (its task: Record the currency on payment charges (#5)):\n- `Charge` now includes a `currency` attribute with a default value of `\"USD\"`. This means any code that creates a `Charge` object without specifying a currency will now have its charge set to USD by default. Before this change, the `Charge` class did not have a `currency` attribute.\n  \n- The `PaymentGateway.charge` method now accepts an optional `currency` parameter, which defaults to `\"USD\"`. This allows callers to explicitly specify the currency for a charge. Before this change, the `charge` method did not accept a currency parameter, and all charges were implicitly in USD.\n  \n- The `TAX_RATES` dictionary in `shop/pricing.py` has a new entry for the Maharashtra region in India (`\"IN-MH\": 0.18`). This change enables the system to calculate taxes for orders in this region, which was not possible before this entry was added.\n\nDo this:\n1. Run `git merge interlock-drift` and resolve any conflicts, adapting YOUR feature to the new behavior.\n   Keep both features working.\n2. Add these intent tests at the paths shown. They must pass after the merge:\n\n`tests/test_interlock_intent_issue_1.py`:\n```python\n\"\"\"Test that money is represented as integer cents end-to-end.\"\"\"\n\nfrom shop.cart import Cart\nfrom shop.money import format_money\nfrom shop.orders import place_order\nfrom shop.payments import PaymentGateway\nfrom shop.pricing import quote\n\n\ndef test_all_amounts_are_integer_cents():\n    \"\"\"Verify that catalog prices, cart subtotal, shipping, tax, and order totals are all int cents.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    cart.add(\"BAG-01\", 1)\n    \n    # Cart subtotal is int cents\n    subtotal = cart.subtotal()\n    assert isinstance(subtotal, int)\n    assert subtotal == 3998 + 995  # 2 * 1999 + 995\n    \n    # Quote breakdown is all int cents\n    q = quote(cart, \"US-CA\")\n    assert all(isinstance(v, int) for v in q.values())\n    assert q[\"subtotal\"] == 4993\n    assert q[\"shipping\"] == 500\n    assert q[\"tax\"] == 362  # 4993 * 0.0725 = 362.0425, rounded to 362\n    assert q[\"total\"] == 5855\n    \n    # Order amounts are int cents\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n    assert isinstance(order.subtotal, int)\n    assert isinstance(order.shipping, int)\n    assert isinstance(order.tax, int)\n    assert isinstance(order.total, int)\n    assert order.total == 5855\n    \n    # Payment gateway receives int cents\n    assert gateway.charges[0].amount_cents == 5855\n    assert isinstance(gateway.charges[0].amount_cents, int)\n\n\ndef test_no_one_cent_mismatches_with_tax_rounding():\n    \"\"\"Verify that tax rounding to nearest cent doesn't cause mismatches.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 1)  # 1999 cents\n    \n    q = quote(cart, \"US-CA\")\n    # 1999 * 0.0725 = 144.9275, rounds to 145\n    assert q[\"tax\"] == 145\n    \n    # Total should be exact: subtotal + shipping + tax\n    assert q[\"total\"] == q[\"subtotal\"] + q[\"shipping\"] + q[\"tax\"]\n    \n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n    \n    # Order total matches what was charged\n    assert order.total == gateway.charges[0].amount_cents\n\n\ndef test_format_money_displays_cents_as_dollars():\n    \"\"\"Verify that integer cents are correctly formatted for display.\"\"\"\n    assert format_money(0) == \"$0.00\"\n    assert format_money(1999) == \"$19.99\"\n    assert format_money(123450) == \"$1,234.50\"\n    assert format_money(500) == \"$5.00\"\n    assert format_money(5) == \"$0.05\"\n```\n\n`tests/test_interlock_intent_interlock_drift.py`:\n```python\n\"\"\"Test that change X's intent holds: currency recording and Maharashtra support.\"\"\"\n\nimport pytest\n\nfrom shop.cart import Cart\nfrom shop.payments import PaymentGateway\nfrom shop.pricing import quote, tax_for\nfrom shop.orders import place_order\n\n\ndef test_charge_records_currency_with_default_usd():\n    \"\"\"Charges default to USD currency.\"\"\"\n    gateway = PaymentGateway()\n    charge_id = gateway.charge(\"cus_1\", 5000)\n    assert gateway.charges[0].currency == \"USD\"\n\n\ndef test_charge_records_explicit_currency():\n    \"\"\"Callers can pass explicit currency to charge().\"\"\"\n    gateway = PaymentGateway()\n    gateway.charge(\"cus_1\", 5000, currency=\"EUR\")\n    gateway.charge(\"cus_1\", 7000, \"GBP\")\n    assert [c.currency for c in gateway.charges] == [\"EUR\", \"GBP\"]\n\n\n@pytest.mark.parametrize(\"currency\", [\"usd\", \"US\", \"USDX\", \"\", \"U$D\", None])\ndef test_charge_rejects_invalid_currency(currency):\n    \"\"\"Invalid currency codes are rejected.\"\"\"\n    gateway = PaymentGateway()\n    with pytest.raises(ValueError):\n        gateway.charge(\"cus_1\", 5000, currency)\n\n\ndef test_maharashtra_tax_rate():\n    \"\"\"IN-MH region has 18% tax rate.\"\"\"\n    assert tax_for(10000, \"IN-MH\") == 1800\n\n\ndef test_quote_in_maharashtra():\n    \"\"\"Carts can be quoted in Maharashtra region.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    q = quote(cart, \"IN-MH\")\n    assert q[\"tax\"] == 7.2\n    assert q[\"total\"] == 52.18\n\n\ndef test_order_in_maharashtra():\n    \"\"\"Orders can be placed in Maharashtra region.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"IN-MH\", gateway)\n    assert order.region == \"IN-MH\"\n    assert order.tax == 7.2\n    assert order.total == 52.18\n    assert gateway.charges[0].amount_cents == 5218\n```\n\n3. Run `uv run pytest -q`. All tests must pass. Then commit the merge with a message that\n   references both issues.\n\n",
+      "reply": "I merged `interlock-drift` again and committed it as `9387d60`. All 48 repo tests pass, but Interlock's re-check will fail the same two Maharashtra tests unless their expected values change to cents. The branch had been reset to before the merge and `interlock-drift` had new commits, so this was a real merge again.\n\n**Merge:**\n- **Same changes as last time:** the incoming code and tests matched the previous round, so I resolved the `tests/test_pricing.py` conflict the same way, keeping both sides.\n- **Currency:** the currency on charges merged unchanged, and orders are charged in the default USD.\n- **Maharashtra tax:** the IN-MH rate merged unchanged and works with cents.\n- **Banner:** the free-shipping banner works with cents as it is.\n- **Branch tests:** `interlock-drift`'s Maharashtra tests in `test_pricing.py` and `test_orders.py` used dollar amounts, so I converted them to cents.\n- **Commit message:** it references both #1 and #5.\n\n**Intent tests:** `tests/test_interlock_intent_issue_1.py` is exactly as given. In `tests/test_interlock_intent_interlock_drift.py` I changed four assertions to cents, as before:\n- `q[\"tax\"] == 7.2` is now `720`\n- `q[\"total\"] == 52.18` is now `5218`\n- `order.tax == 7.2` is now `720`\n- `order.total == 52.18` is now `5218`\n\nThe values as written can't pass alongside issue #1: they need dollar amounts, and the `issue_1` intent test requires whole cents. A whole number can never equal 7.2. Making them pass would mean returning dollars for IN-MH, which brings back the dollar-vs-cents mismatch #1 fixes, or faking the comparison. I won't do either.\n\nTo clear the check, update those four assertions in Interlock's copy of the test to the cents values above. If a person decides Maharashtra amounts should stay in dollars instead, tell me and I'll change it, but that goes against issue #1.",
+      "head": "3892323c89",
+      "intent_tests_ok": true,
+      "suite_ok": true,
+      "failed": [],
+      "output": "................................................                         [100%]\n48 passed in 0.12s\n"
+    }
+  ],
+  "steps": [
+    {
+      "step": "prove",
+      "at": "03:17:14",
+      "verdicts": [
+        "holds",
+        "holds"
+      ]
+    },
+    {
+      "step": "decide",
+      "at": "03:17:14",
+      "adapts": "agent/issue-1",
+      "reason": "agent/issue-1 is landing onto already-integrated code, so it adapts"
+    },
+    {
+      "step": "message",
+      "at": "03:17:14",
+      "round": 1,
+      "to_session": "38dab3b0-7514-44fb-b1c3-adb6af2f8650"
+    },
+    {
+      "step": "agent_replied",
+      "at": "03:17:59",
+      "round": 1,
+      "ok": true,
+      "turns": 8,
+      "agent_cost_usd": 1.8351814000000004
+    },
+    {
+      "step": "arbitrate",
+      "at": "03:18:22",
+      "round": 1,
+      "reexpressed": [
+        "tests/test_interlock_intent_interlock_drift.py"
+      ]
+    },
+    {
+      "step": "verify",
+      "at": "03:18:26",
+      "round": 1,
+      "resolved": true,
+      "failed": []
+    }
+  ],
+  "adapts": "agent/issue-1",
+  "other": "interlock-drift",
+  "reason": "agent/issue-1 is landing onto already-integrated code, so it adapts",
+  "other_summary": "- `Charge` now includes a `currency` attribute with a default value of `\"USD\"`. This means any code that creates a `Charge` object without specifying a currency will now have its charge set to USD by default. Before this change, the `Charge` class did not have a `currency` attribute.\n  \n- The `PaymentGateway.charge` method now accepts an optional `currency` parameter, which defaults to `\"USD\"`. This allows callers to explicitly specify the currency for a charge. Before this change, the `charge` method did not accept a currency parameter, and all charges were implicitly in USD.\n  \n- The `TAX_RATES` dictionary in `shop/pricing.py` has a new entry for the Maharashtra region in India (`\"IN-MH\": 0.18`). This change enables the system to calculate taxes for orders in this region, which was not possible before this entry was added.",
+  "session_id": "38dab3b0-7514-44fb-b1c3-adb6af2f8650",
+  "tests": {
+    "tests/test_interlock_intent_issue_1.py": "\"\"\"Test that money is represented as integer cents end-to-end.\"\"\"\n\nfrom shop.cart import Cart\nfrom shop.money import format_money\nfrom shop.orders import place_order\nfrom shop.payments import PaymentGateway\nfrom shop.pricing import quote\n\n\ndef test_all_amounts_are_integer_cents():\n    \"\"\"Verify that catalog prices, cart subtotal, shipping, tax, and order totals are all int cents.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    cart.add(\"BAG-01\", 1)\n    \n    # Cart subtotal is int cents\n    subtotal = cart.subtotal()\n    assert isinstance(subtotal, int)\n    assert subtotal == 3998 + 995  # 2 * 1999 + 995\n    \n    # Quote breakdown is all int cents\n    q = quote(cart, \"US-CA\")\n    assert all(isinstance(v, int) for v in q.values())\n    assert q[\"subtotal\"] == 4993\n    assert q[\"shipping\"] == 500\n    assert q[\"tax\"] == 362  # 4993 * 0.0725 = 362.0425, rounded to 362\n    assert q[\"total\"] == 5855\n    \n    # Order amounts are int cents\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n    assert isinstance(order.subtotal, int)\n    assert isinstance(order.shipping, int)\n    assert isinstance(order.tax, int)\n    assert isinstance(order.total, int)\n    assert order.total == 5855\n    \n    # Payment gateway receives int cents\n    assert gateway.charges[0].amount_cents == 5855\n    assert isinstance(gateway.charges[0].amount_cents, int)\n\n\ndef test_no_one_cent_mismatches_with_tax_rounding():\n    \"\"\"Verify that tax rounding to nearest cent doesn't cause mismatches.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 1)  # 1999 cents\n    \n    q = quote(cart, \"US-CA\")\n    # 1999 * 0.0725 = 144.9275, rounds to 145\n    assert q[\"tax\"] == 145\n    \n    # Total should be exact: subtotal + shipping + tax\n    assert q[\"total\"] == q[\"subtotal\"] + q[\"shipping\"] + q[\"tax\"]\n    \n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n    \n    # Order total matches what was charged\n    assert order.total == gateway.charges[0].amount_cents\n\n\ndef test_format_money_displays_cents_as_dollars():\n    \"\"\"Verify that integer cents are correctly formatted for display.\"\"\"\n    assert format_money(0) == \"$0.00\"\n    assert format_money(1999) == \"$19.99\"\n    assert format_money(123450) == \"$1,234.50\"\n    assert format_money(500) == \"$5.00\"\n    assert format_money(5) == \"$0.05\"\n",
+    "tests/test_interlock_intent_interlock_drift.py": "\"\"\"Test that change X's intent holds: currency recording and Maharashtra support.\"\"\"\n\nimport pytest\n\nfrom shop.cart import Cart\nfrom shop.payments import PaymentGateway\nfrom shop.pricing import quote, tax_for\nfrom shop.orders import place_order\n\n\ndef test_charge_records_currency_with_default_usd():\n    \"\"\"Charges default to USD currency.\"\"\"\n    gateway = PaymentGateway()\n    charge_id = gateway.charge(\"cus_1\", 5000)\n    assert gateway.charges[0].currency == \"USD\"\n\n\ndef test_charge_records_explicit_currency():\n    \"\"\"Callers can pass explicit currency to charge().\"\"\"\n    gateway = PaymentGateway()\n    gateway.charge(\"cus_1\", 5000, currency=\"EUR\")\n    gateway.charge(\"cus_1\", 7000, \"GBP\")\n    assert [c.currency for c in gateway.charges] == [\"EUR\", \"GBP\"]\n\n\n@pytest.mark.parametrize(\"currency\", [\"usd\", \"US\", \"USDX\", \"\", \"U$D\", None])\ndef test_charge_rejects_invalid_currency(currency):\n    \"\"\"Invalid currency codes are rejected.\"\"\"\n    gateway = PaymentGateway()\n    with pytest.raises(ValueError):\n        gateway.charge(\"cus_1\", 5000, currency)\n\n\ndef test_maharashtra_tax_rate():\n    \"\"\"IN-MH region has 18% tax rate.\"\"\"\n    # tax_for returns cents; 18% of 10000 cents = 1800 cents\n    assert tax_for(10000, \"IN-MH\") == 1800\n\n\ndef test_quote_in_maharashtra():\n    \"\"\"Carts can be quoted in Maharashtra region.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    q = quote(cart, \"IN-MH\")\n    # TEE-01 = 1999 cents each, qty 2 => subtotal = 3998 cents\n    # shipping = 500 cents (subtotal < 5000)\n    # tax = 18% of 3998 = 719.64 => 720 cents (rounded half-up)\n    # total = 3998 + 500 + 720 = 5218 cents\n    assert q[\"subtotal\"] == 3998\n    assert q[\"shipping\"] == 500\n    assert q[\"tax\"] == 720\n    assert q[\"total\"] == 5218\n\n\ndef test_order_in_maharashtra():\n    \"\"\"Orders can be placed in Maharashtra region.\"\"\"\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"IN-MH\", gateway)\n    assert order.region == \"IN-MH\"\n    # All monetary fields are in cents\n    assert order.subtotal == 3998\n    assert order.shipping == 500\n    assert order.tax == 720\n    assert order.total == 5218\n    assert gateway.charges[0].amount_cents == 5218\n"
+  },
+  "llm_cost_usd": 0.074816
+}

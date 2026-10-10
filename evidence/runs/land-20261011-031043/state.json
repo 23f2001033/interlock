@@ -1,0 +1,175 @@
+{
+  "run_id": "land-20261011-031043",
+  "into": "interlock-drift",
+  "goal": "land agent/issue-4, agent/issue-5, agent/issue-1 on interlock-drift",
+  "events": [
+    {
+      "at": "03:10:45",
+      "event": "plan",
+      "order": [
+        "agent/issue-4",
+        "agent/issue-5",
+        "agent/issue-1"
+      ]
+    },
+    {
+      "at": "03:10:49",
+      "event": "landed",
+      "branch": "agent/issue-4",
+      "head": "7bbc17d79e",
+      "detail": "19 tests passed"
+    },
+    {
+      "at": "03:11:02",
+      "event": "prove",
+      "branch": "agent/issue-5",
+      "against": "interlock-drift",
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [],
+      "run": "20261011-031049"
+    },
+    {
+      "at": "03:11:09",
+      "event": "retry",
+      "branch": "agent/issue-5",
+      "reason": "target moved during landing (compare-and-swap failed)"
+    },
+    {
+      "at": "03:11:16",
+      "event": "drift",
+      "commits": [
+        "43b849e Priya (teammate): Add free-shipping banner for the cart page"
+      ],
+      "entities": [
+        "free_shipping_banner"
+      ],
+      "affected": [
+        "agent/issue-1"
+      ],
+      "why": {
+        "agent/issue-1": {
+          "changes_same": [],
+          "new_code_depends_on": [
+            "Cart.subtotal",
+            "price_of",
+            "round_money"
+          ]
+        }
+      },
+      "unaffected": [
+        "agent/issue-5"
+      ]
+    },
+    {
+      "at": "03:11:22",
+      "event": "landed",
+      "branch": "agent/issue-5",
+      "head": "df225ce8ed",
+      "detail": "29 tests passed"
+    },
+    {
+      "at": "03:12:36",
+      "event": "prove",
+      "branch": "agent/issue-1",
+      "against": "interlock-drift",
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [
+        "tests/test_pricing.py"
+      ],
+      "run": "20261011-031122"
+    },
+    {
+      "at": "03:14:36",
+      "event": "coordinate",
+      "branch": "agent/issue-1",
+      "status": "escalated",
+      "rounds": 3,
+      "run": "20261011-031122"
+    },
+    {
+      "at": "03:14:40",
+      "event": "finish",
+      "status": "partial",
+      "landed": [
+        "agent/issue-4",
+        "agent/issue-5"
+      ],
+      "escalated": [
+        "agent/issue-1"
+      ],
+      "final_suite": {
+        "passed": 29,
+        "failed": []
+      }
+    }
+  ],
+  "landed": [
+    "agent/issue-4",
+    "agent/issue-5"
+  ],
+  "escalated": [
+    "agent/issue-1"
+  ],
+  "plan": {
+    "order": [
+      "agent/issue-4",
+      "agent/issue-5",
+      "agent/issue-1"
+    ],
+    "branches": [
+      {
+        "branch": "agent/issue-4",
+        "base": "7950d868b7",
+        "entities": [
+          "shop/pricing.py"
+        ],
+        "dependents": 0,
+        "shares_with": []
+      },
+      {
+        "branch": "agent/issue-5",
+        "base": "7950d868b7",
+        "entities": [
+          "Charge",
+          "PaymentGateway",
+          "PaymentGateway.charge"
+        ],
+        "dependents": 17,
+        "shares_with": []
+      },
+      {
+        "branch": "agent/issue-1",
+        "base": "7950d868b7",
+        "entities": [
+          "Cart",
+          "Cart.subtotal",
+          "Order",
+          "OrderLine",
+          "Product",
+          "apply_rate",
+          "format_money",
+          "place_order",
+          "price_of",
+          "quote",
+          "round_money",
+          "shipping_for",
+          "tax_for"
+        ],
+        "dependents": 56,
+        "shares_with": []
+      }
+    ]
+  },
+  "final_suite": {
+    "passed": 29,
+    "failed": []
+  },
+  "status": "partial",
+  "seconds": 237.0
+}

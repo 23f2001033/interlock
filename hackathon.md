@@ -127,6 +127,46 @@ Status of each item:
   - 125,562 job postings since 2026-01-01 mention AI coding tools ("claude code" 76,842; "github copilot" 59,306; "coding agents" 15,769);
   - at least 1,000 distinct companies (the API caps buckets at 1,000).
 
+### 2026-10-11 02:40-03:20: Fleet #2, evaluation and improvement loops (completed)
+- **Fleet #2:** agents on #4 (IN-MH tax region) and #5 (currency on charges). Branch tests: 19 passed and 24 passed.
+  - Entire's `prepare-commit-msg` hook hung again, even with the agents running one at a time. So the cause is headless sessions here, not concurrency.
+  - Same fix as before: commit with hooks off, then `entire session attach`. Checkpoints: #4 `01M4KTRB51MXA4AV8VM3Z33927`, #5 `01M4KTRC57RYSWS08S3JCYQCGQ`.
+  - `scripts/fleet.sh` now does this automatically.
+- **Eval suite:** `eval/scenarios.json` has 8 labelled pairs (2 interfering, 6 benign), each with a stated reason, on stable tags `eval/*`. **Results** (`eval/results/`, real costs because the cache is bypassed for test synthesis):
+
+  | Version | Recall | Precision | Cost | Time |
+  |---|---|---|---|---|
+  | v1 merge queue | 1.00 | 0.40 | $0.11 | 61 s |
+  | v2.0 | 1.00 | 0.67 | $0.52 | 296 s |
+  | v2.1 | 1.00 | 0.67 | $0.40 | 276 s |
+  | v2.2 | 1.00 | 1.00 | $0.55 | 307 s |
+  | v2.3 | 1.00 | 1.00 | $0.38 | 367 s |
+
+- **Loop 1 (v2.1):**
+  - Traces showed benign pairs with no shared code still paying for test synthesis.
+  - They also showed a bug: the overlap check only looked one way, so `currency × save10` was reported with no overlap.
+  - Fixed: the overlap check now runs in both directions, and a free entire-graph pre-check clears pairs that share nothing.
+- **Loop 2 (v2.2):**
+  - The one false alarm came from an intent test that hard-coded dollars.
+  - Added a second-opinion confirmation: the same intent is re-expressed in the merged code's representation, and the proof is withdrawn only if that test passes on the merge and fails on the base.
+  - Result: precision went to 1.0. All 4 real findings were confirmed, and the false alarm was reclassified as `representation_only`.
+- **Loop 3 (v2.3):** model ladder (Haiku first, then Sonnet). Cost fell 31% with the same accuracy: 12 of 14 tests were written by Haiku and 2 were escalated to Sonnet.
+- **Drift demo #1** (`evidence/runs/land-20261011-031043`): goal "land #4, #5, #1"; simulated teammate "Priya" pushed a free-shipping banner right after #4 landed.
+  - Landing #5 hit a **failed compare-and-swap**, which was recorded as drift.
+  - Drift analysis showed the banner's new code depends on `Cart.subtotal`, `price_of` and `round_money`, which #1 changes, so **#1 was affected and #5 was not**.
+  - #5 then landed (29 tests). #1 was re-proved: intents hold, but `tests/test_pricing.py` had a textual conflict, so Interlock coordinated agent #1.
+  - **Agent #1 pushed back:** an acceptance test written for the target's IN-MH intent hard-coded dollars (`tax == 7.2`), which contradicts #1's own task (integer cents). It refused to break its task for 3 rounds, and Interlock **escalated** instead of forcing (`evidence/runs/20261011-031122/state.json`).
+- **Loop 4 (from that escalation):** the coordinator now **arbitrates**. When an acceptance test fails, Interlock re-expresses that intent in the new head's representation and accepts the new test only if it passes on the head and fails on the base (`coordinator.reexpress_acceptance`, `arbitrate.reexpress` span). Drift demo #2 re-runs the same scenario from a clean start.
+
+### 2026-10-11 03:16-03:19: Drift demo #2 resolves autonomously (completed)
+- `evidence/runs/land-20261011-031600` + `evidence/runs/20261011-031629`: the same goal from a clean start (agent/issue-1 reset to its original commit `c6b4dca`).
+- #4 landed, then the teammate pushed (`be772b0`).
+- #5's landing CAS failed → drift recorded. #1 affected (the new code depends on `Cart.subtotal`, `price_of`, `round_money`); #5 unaffected → #5 landed (29 tests).
+- #1 re-proved: intents hold, but `tests/test_pricing.py` conflicted. Agent #1's own session was resumed and merged the target.
+  - **Arbitration re-expressed** the contradictory dollar-based acceptance test `tests/test_interlock_intent_interlock_drift.py`. It was accepted only after passing on the head and failing on the base.
+  - Verified → **resolved in round 1** (was: escalated after 3 rounds).
+- #1 landed. **Final suite: 48 passed, 0 failed. Goal DONE in 2.5 min, no human.**
+
 ### Planned next
 - Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
 - Builder confirms creating the public GitHub repos, then push.

@@ -4,13 +4,23 @@ Each claim below links to something a judge can check. Run files live in `eviden
 
 ## 1. The agent improved (before → after runs, with the compared numbers)
 
-*Filled in by the improvement loops below. Each loop is: find the failure or waste in neatlogs, locate the code, fix it, re-run the same eval, compare.*
+Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent branches, 2 interfering and 6 benign). The cache is bypassed for test synthesis so costs are real. Every run is traced in neatlogs and tagged with its version (`v1`, `v2.0` … `v2.3`). Result files are in `eval/results/`.
 
-| Loop | What the traces showed | Fix | Before → after |
+| Version | Recall | Precision | False alarms | Cost (8 pairs) | Time |
+|---|---|---|---|---|---|
+| v1: plain merge queue (merge + existing tests) | 1.00 | 0.40 | 3 / 6 | $0.11 | 61 s |
+| v2.0: Interlock | 1.00 | 0.67 | 1 / 6 | $0.52 | 296 s |
+| v2.1: + entire-graph pre-check, two-direction overlap | 1.00 | 0.67 | 1 / 6 | **$0.40** (−22%) | 276 s |
+| v2.2: + second-opinion confirmation | 1.00 | **1.00** | **0 / 6** | $0.55 | 307 s |
+| v2.3: + model ladder (Haiku first, then Sonnet) | **1.00** | **1.00** | **0 / 6** | **$0.38** (−31% vs v2.2) | 367 s |
+
+| Loop | What the traces showed | Fix (code) | Before → after |
 |---|---|---|---|
-| 1 | *(pending)* | | |
-| 2 | *(pending)* | | |
-| 3 | *(pending)* | | |
+| 1 | Benign pairs that share no code still spent $0.03-0.09 each writing intent tests. The overlap check only looked one way, so `currency × save10` (where `place_order` calls the changed `charge()`) showed no overlap. | `prover._overlap` checks both directions. Pairs with no shared or called entities, no shared files, a clean merge and a green suite are cleared by entire-graph with no model call (`cleared_by_graph` span). | $0.52 → $0.40, 296 s → 276 s. `currency × region` cleared for $0 in 9 s. Charge-related overlap now detected. |
+| 2 | The one false alarm (`region × cents`) came from an intent test that hard-coded dollars (`round(order.total * 100)`): a representation clash, not broken behavior. | `prover._confirm`: before reporting interference, re-express the same intent in the merged code's representation. Withdraw the proof only if that test passes on the merge **and** fails on the base (so a vacuous test can't clear a real conflict). | Precision 0.67 → **1.00**. All 4 real findings `confirmed`; the false one became `representation_only`. Cost +$0.15. |
+| 3 | `llm.synthesize_test` spans were all Sonnet; most tests are simple. | `prover._ladder`: Claude Haiku first (1 repair), escalating to Sonnet only if needed (`synthesize.<model>` spans, `interlock.escalated_from`). | $0.55 → **$0.38** at the same recall/precision. 12 of 14 intent tests written by Haiku, 2 escalated to Sonnet. Slower (307 s → 367 s): an honest trade-off. |
+
+| 4 | Drift demo #1 escalated after 3 rounds. The `agent_message` spans show agent #1 explaining that an acceptance test hard-coded dollars (`tax == 7.2`) and contradicted its own task (integer cents). | `coordinator.reexpress_acceptance`: when acceptance tests fail, re-express the intent in the new head's representation and accept it only if it passes on the head and fails on the base (`arbitrate.reexpress` span). | Same scenario: **escalated after 3 rounds → resolved in round 1**, goal DONE, 48/48 (`evidence/runs/20261011-031122` → `evidence/runs/20261011-031629`). |
 
 ## 2. We used neatlogs
 

@@ -79,7 +79,8 @@ Everything is traced in **neatlogs**: workflow → agents (planner, intent, prov
 | `prove` issue-2 × issue-1 | Interference proven in **both** directions (`NameError: round_money` after the automated resolution); **$0.062**, 47 s | `evidence/runs/20261011-013325/` |
 | `resolve` issue-2 × issue-1 | Agent #2's own session resumed with the fix request → fee moved to cents, 30/30 tests, re-verified → **resolved in 1 round, $0.0011 of Interlock LLM** | `evidence/runs/20261011-013837/` |
 | `land` issue-1, -2, -3 | All three landed. Agent #3 coordinated in 1 round (interference in both directions + 3 conflicted files). **Final suite 48/48.** | `evidence/runs/land-20261011-023216/` |
-| `eval` v1 vs v2 | *(in progress)* | `eval/results/` |
+| `land` #4, #5, #1 **while a teammate pushes** | The concurrent push failed Interlock's compare-and-swap → drift analysis: the banner's new code depends on `Cart.subtotal`/`price_of`/`round_money`, so only #1 is affected → #1 re-proved, agent #1 coordinated, a contradictory acceptance test re-expressed (arbitration) → **DONE in 2.5 min, 48/48** | `evidence/runs/land-20261011-031600/` |
+| `eval`: 8 labelled pairs of real agent branches | **Merge queue (v1): recall 1.0, precision 0.40 (3 false alarms). Interlock v2.3: recall 1.0, precision 1.0, $0.38 for all 8 pairs** (3 improvement loops, see [EVIDENCE.md](EVIDENCE.md)) | `eval/results/` |
 
 ## Quickstart
 

@@ -20,7 +20,7 @@ from pathlib import Path
 import neatlogs
 
 from interlock import entire, gitops
-from interlock.llm import LLM, MID, SMALL
+from interlock.llm import LLM, MID, SMALL, STRONG, extract_code
 from interlock.prover import _clip, _intent_text, _prompt, prove
 from interlock.testrun import pytest
 from interlock.tools import NO_HOOKS, run
@@ -117,6 +117,39 @@ def verify(repo: Path, ref: str, tests: dict[str, str], wt_path: Path) -> dict:
         gitops.remove_worktree(repo, wt)
 
 
+def reexpress_acceptance(llm: LLM, repo: Path, report: dict, tests: dict[str, str], test_owner: dict[str, str],
+                         failed: list[str], output: str, head: str, wt_root: Path) -> list[str]:
+    """Arbitrate when an acceptance test contradicts the adapting agent's own task (e.g. it hard-codes dollars
+    after an intended switch to cents). Re-express that intent in the new head's representation and accept the
+    new test only if it passes on the head AND fails on the base, so the intent is still really checked."""
+    files = sorted({f"{t.split('::')[0].replace('.', '/')}.py" for t in failed} & set(tests))
+    if not files:
+        return []
+    changed = []
+    with neatlogs.trace("arbitrate.reexpress", kind="AGENT", **{"interlock.tests": ",".join(files)}):
+        wt_head = gitops.add_worktree(repo, wt_root / "arb-head", head)
+        wt_base = gitops.add_worktree(repo, wt_root / "arb-base", report["base"])
+        try:
+            src = [f for f in gitops.git(repo, "diff", "--name-only", report["base"], head, "--", ":!tests").out.split() if f]
+            merged = "\n".join(f"### {f}\n```python\n{_clip((wt_head / f).read_text(encoding='utf-8'), 6000)}\n```"
+                               for f in src if (wt_head / f).exists() and f.endswith(".py"))
+            for name in files:
+                owner = test_owner[name]
+                new = extract_code(llm.complete([{"role": "user", "content": _prompt(
+                    "confirm_intent", x_intent=_intent_text(report["intents"][owner]), test=tests[name],
+                    failure=output[-2500:], merged_files=merged or "(none)")}],
+                    model=STRONG, purpose="reexpress_acceptance", max_tokens=3000))
+                (wt_head / name).write_text(new, encoding="utf-8")
+                (wt_base / name).write_text(new, encoding="utf-8")
+                if pytest(wt_head, name).ok and not pytest(wt_base, name).ok:
+                    tests[name] = new
+                    changed.append(name)
+        finally:
+            gitops.remove_worktree(repo, wt_head)
+            gitops.remove_worktree(repo, wt_base)
+    return changed
+
+
 def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget_usd: float = 1.0,
             resume: str | None = None, force_adapts: str | None = None, report: dict | None = None) -> dict:
     llm = LLM(state_dir, budget_usd=budget_usd)
@@ -138,8 +171,10 @@ def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget
             st.save()
             return st.data
 
-        tests = {f"tests/test_interlock_intent_{d['intent_of'].split('/')[-1].replace('-', '_')}.py": d["test"]
-                 for d in report["directions"] if d.get("test") and d["on_own_branch"] == "passed"}
+        test_owner = {f"tests/test_interlock_intent_{d['intent_of'].split('/')[-1].replace('-', '_')}.py": d["intent_of"]
+                      for d in report["directions"] if d.get("test") and d["on_own_branch"] == "passed"}
+        tests = st.data.get("tests") or {name: next(d["test"] for d in report["directions"] if d["intent_of"] == owner)
+                                         for name, owner in test_owner.items()}
 
         if "adapts" not in st.data:
             with neatlogs.trace("decide", kind="AGENT") as span:
@@ -185,6 +220,16 @@ def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget
 
                 result = verify(repo, side, tests, state_dir / "worktrees" / st.data["run_id"] / f"verify-{n}")
                 ok = result["intent_tests_ok"] and result["suite_ok"]
+                if not ok and result["failed"]:
+                    # The agent may be right that an acceptance test contradicts its own task: arbitrate.
+                    changed = reexpress_acceptance(llm, repo, report, tests, test_owner, result["failed"],
+                                                   result["output"], side,
+                                                   state_dir / "worktrees" / st.data["run_id"] / f"arb-{n}")
+                    if changed:
+                        st.data["tests"] = tests
+                        st.step("arbitrate", round=n, reexpressed=changed)
+                        result = verify(repo, side, tests, state_dir / "worktrees" / st.data["run_id"] / f"verify-{n}b")
+                        ok = result["intent_tests_ok"] and result["suite_ok"]
                 span.set_attribute("interlock.resolved", ok)
                 st.data["rounds"].append({"round": n, "message": message, "reply": reply["reply"][-3000:], **result})
                 st.step("verify", round=n, resolved=ok, failed=result["failed"][:10])
