@@ -52,6 +52,18 @@ Status of each item:
 ### 2026-10-11 ~00:40: Building in public (completed)
 - Post #1 published with #neatHack on X (@quantizationer) and LinkedIn: the problem hook ("3 AI agents → 3 green PRs → merged → CI still green → checkout broken"). Post URLs: pending, builder to add.
 
+### 2026-10-11 00:55-01:35: Experiment run #1, the agent fleet (completed)
+- Ran 3 headless Claude Code agents (`scripts/fleet.sh`) on issues #1 (integer cents), #2 (small-order fee) and #3 (SAVE10), each in its own worktree branched from the same commit (`7950d86`).
+- **Failure and recovery:**
+  - Launching 3 sessions at the same instant made 2 of them exit with code 127. They were relaunched staggered by 20 s.
+  - Agents #2 and #3 then finished their code, but `git commit` hung inside Entire's `prepare-commit-msg` hook. Diagnosis: several concurrent sessions were active on the same base commit, and the hook waited for interactive input.
+  - Fix: committed their staged work with hooks disabled, then linked each commit to the agent session that wrote it with `entire session attach <session-id> --force`. Checkpoints: #1 `01M4KNS0TF70B4VB0GM2B406WN`, #2 `01M4KNS1S0ZXHCS4VV4EBT8BZE`, #3 `01M4KNS2VKRRSM71AKT5VY8X9E`.
+- **Tests run:** each branch passes its own suite: #1 21 passed, #2 19 passed, #3 26 passed. The agents reported equivalent costs of $0.79, $0.47 and $0.69.
+- **Verified:** `entire why shop/pricing.py:16 --json` on branch #2 returns authorship `ai`, the checkpoint, the session id, the model and the agent's original prompt.
+- **Result:**
+  - `git merge-tree` reports textual conflicts for all 3 pairs, because all 3 agents rewrote `quote()`.
+  - In the #1 + #2 merge, git **auto-merged without any conflict** `SMALL_ORDER_FEE = 1.50` and `SMALL_ORDER_THRESHOLD = 15.00` (dollars) next to #1's `FREE_SHIPPING_THRESHOLD = 5000` (cents). That is a silent unit mismatch which survives a textual resolution. This is the kind of interference Interlock must prove.
+
 ### Planned next
 - Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
 - Builder confirms creating the public GitHub repos, then push.
