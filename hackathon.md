@@ -49,6 +49,9 @@ Status of each item:
 - Wrote `CLAUDE.md`, `docs/SPEC.md`, `docs/DEMO_SCENARIO.md` and three neutral issue texts for the agent fleet.
 - Known issue found: Entire's hooks skip silently when `entire` isn't on PATH, and the editor started before the installer updated PATH. **Fix: fully restart VS Code before any captured session.**
 
+### 2026-10-11 ~00:40: Building in public (completed)
+- Post #1 published with #neatHack on X (@quantizationer) and LinkedIn: the problem hook ("3 AI agents → 3 green PRs → merged → CI still green → checkout broken"). Post URLs: pending, builder to add.
+
 ### Planned next
 - Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
 - Builder confirms creating the public GitHub repos, then push.

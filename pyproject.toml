@@ -1,0 +1,26 @@
+[project]
+name = "interlock"
+version = "0.1.0"
+description = "Lands AI-written PRs safely by proving cross-PR conflicts (passes alone, fails together)"
+authors = [
+    { name = "Aman", email = "143065539+23f2001033@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "neatlogs[openai]>=1.4.26",
+    "openai>=3.28.0",
+    "python-dotenv>=1.2.4",
+    "typer>=0.27.3",
+]
+
+[project.scripts]
+interlock = "interlock:main"
+
+[build-system]
+requires = ["uv_build>=0.11.28,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
