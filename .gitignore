@@ -1,0 +1,21 @@
+# secrets
+.env
+.env.*
+!.env.example
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+# interlock runtime state (ledger, LLM cache, scratch worktrees)
+.interlock/
+*.db
+# os/editor
+.DS_Store
+Thumbs.db
+.vscode/
+node_modules/
