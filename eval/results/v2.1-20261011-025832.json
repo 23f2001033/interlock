@@ -1,0 +1,190 @@
+{
+  "metrics": {
+    "mode": "v2",
+    "label": "v2.1",
+    "pairs": 8,
+    "tp": 2,
+    "fn": 0,
+    "fp": 1,
+    "tn": 5,
+    "recall": 1.0,
+    "precision": 0.667,
+    "cost_usd": 0.402,
+    "seconds": 275.9
+  },
+  "rows": [
+    {
+      "flagged": true,
+      "verdicts": [
+        "interference",
+        "interference"
+      ],
+      "conflicts": [
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "overlap": [
+        "Cart.subtotal",
+        "price_of",
+        "quote",
+        "round_money",
+        "shipping_for",
+        "tax_for"
+      ],
+      "cost_usd": 0.062264,
+      "tokens_in": 12653,
+      "run": "20261011-025356",
+      "evidence": "intent of eval/fee: passes alone, fails together; intent of eval/cents: passes alone, fails together",
+      "name": "fee_x_cents",
+      "truth": "interference",
+      "seconds": 38.9,
+      "correct": true
+    },
+    {
+      "flagged": true,
+      "verdicts": [
+        "interference",
+        "interference"
+      ],
+      "conflicts": [
+        "shop/orders.py",
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "overlap": [
+        "Cart.subtotal",
+        "Order",
+        "OrderLine",
+        "place_order",
+        "price_of",
+        "quote",
+        "round_money",
+        "shipping_for",
+        "tax_for"
+      ],
+      "cost_usd": 0.083279,
+      "tokens_in": 16031,
+      "run": "20261011-025435",
+      "evidence": "intent of eval/save10: passes alone, fails together; intent of eval/cents: passes alone, fails together",
+      "name": "save10_x_cents",
+      "truth": "interference",
+      "seconds": 41.7,
+      "correct": true
+    },
+    {
+      "flagged": false,
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "overlap": [
+        "quote"
+      ],
+      "cost_usd": 0.048962,
+      "tokens_in": 9652,
+      "run": "20261011-025516",
+      "evidence": "",
+      "name": "save10_x_fee",
+      "truth": "benign",
+      "seconds": 38.2,
+      "correct": true
+    },
+    {
+      "flagged": true,
+      "verdicts": [
+        "interference",
+        "holds"
+      ],
+      "conflicts": [
+        "tests/test_pricing.py"
+      ],
+      "overlap": [],
+      "cost_usd": 0.070613,
+      "tokens_in": 12478,
+      "run": "20261011-025555",
+      "evidence": "intent of eval/region: passes alone, fails together",
+      "name": "region_x_cents",
+      "truth": "benign",
+      "seconds": 43.9,
+      "correct": false
+    },
+    {
+      "flagged": false,
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [],
+      "overlap": [],
+      "cost_usd": 0.031961,
+      "tokens_in": 4320,
+      "run": "20261011-025638",
+      "evidence": "",
+      "name": "region_x_fee",
+      "truth": "benign",
+      "seconds": 31.5,
+      "correct": true
+    },
+    {
+      "flagged": false,
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [],
+      "overlap": [
+        "PaymentGateway.charge"
+      ],
+      "cost_usd": 0.058328,
+      "tokens_in": 12675,
+      "run": "20261011-025710",
+      "evidence": "",
+      "name": "currency_x_cents",
+      "truth": "benign",
+      "seconds": 35.4,
+      "correct": true
+    },
+    {
+      "flagged": false,
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [],
+      "overlap": [],
+      "cost_usd": 0.0,
+      "tokens_in": 0,
+      "run": "20261011-025745",
+      "evidence": "",
+      "name": "currency_x_region",
+      "truth": "benign",
+      "seconds": 9.2,
+      "correct": true
+    },
+    {
+      "flagged": false,
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [],
+      "overlap": [
+        "PaymentGateway.charge"
+      ],
+      "cost_usd": 0.046586,
+      "tokens_in": 9682,
+      "run": "20261011-025755",
+      "evidence": "",
+      "name": "currency_x_save10",
+      "truth": "benign",
+      "seconds": 37.1,
+      "correct": true
+    }
+  ],
+  "suite": "C:\\Users\\Aman\\Desktop\\NeatHack\\interlock\\eval\\scenarios.json",
+  "at": "2026-10-11 02:58:32"
+}

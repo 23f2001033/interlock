@@ -1,0 +1,22 @@
+{
+  "repo": "interlock-demo-shop",
+  "note": "Branch pairs written by independent Claude Code agents from the same base (7950d86). Tags point at each agent's original commit. Ground-truth labels are human judgements; the reasoning is stated for each pair.",
+  "scenarios": [
+    {"name": "fee_x_cents", "x": "eval/fee", "y": "eval/cents", "truth": "interference",
+     "why": "#2 writes the fee threshold/amount in float dollars and calls round_money; #1 makes every amount integer cents and removes round_money. Combined, the fee is never charged (995 cents is not < 15.00) or the code crashes."},
+    {"name": "save10_x_cents", "x": "eval/save10", "y": "eval/cents", "truth": "interference",
+     "why": "#3 keeps SAVE10's minimum as 40.00 dollars and uses round_money; with #1's integer cents the minimum becomes 40 cents (discount on almost every order) or the code crashes."},
+    {"name": "save10_x_fee", "x": "eval/save10", "y": "eval/fee", "truth": "benign",
+     "why": "Both add a line to quote() (textual conflict) but the features are independent: the fee applies under $15, SAVE10 only at $40+, and both keep tax on the (discounted) subtotal excluding the fee."},
+    {"name": "region_x_cents", "x": "eval/region", "y": "eval/cents", "truth": "benign",
+     "why": "#4 only adds an IN-MH rate; #1 keeps rates as fractions and applies them to cents, so IN-MH still taxes 18%. (#4's own tests are written in dollars and will fail on the merge: a test-representation clash, not a behavior one.)"},
+    {"name": "region_x_fee", "x": "eval/region", "y": "eval/fee", "truth": "benign",
+     "why": "New tax region vs small-order fee: no shared behavior."},
+    {"name": "currency_x_cents", "x": "eval/currency", "y": "eval/cents", "truth": "benign",
+     "why": "#5 adds a currency field to charges; #1 changes amount units in orders/pricing. Charges already took integer cents, so neither intent depends on the other."},
+    {"name": "currency_x_region", "x": "eval/currency", "y": "eval/region", "truth": "benign",
+     "why": "Payments vs tax rates: no shared code or behavior."},
+    {"name": "currency_x_save10", "x": "eval/currency", "y": "eval/save10", "truth": "benign",
+     "why": "#3 passes an optional code through place_order; #5 adds an optional currency to charge(): independent."}
+  ]
+}

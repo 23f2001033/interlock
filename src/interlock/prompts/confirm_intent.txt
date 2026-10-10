@@ -1,0 +1,26 @@
+An intent test for change X passed on branch X but FAILED on the merged code (X merged with Y).
+That may be a real problem (X's intended behavior is broken after the merge), or the test may have
+failed only because Y legitimately changed an internal representation (units, types, field names,
+signatures) that the test hard-coded.
+
+Task the author of X was given:
+{x_intent}
+
+The intent test that failed on the merge:
+```python
+{test}
+```
+
+Its failure output on the merge:
+```
+{failure}
+```
+
+The merged code (files touched by both changes):
+{merged_files}
+
+Write ONE new pytest file that checks the SAME intent of X (the same concrete behavior, inputs and
+expected outcomes; do not weaken or drop any requirement of the task) but expressed in the MERGED code's
+own representation and API. If the merged code genuinely breaks X's intent, your test must fail on it.
+
+Reply with the complete test file in a single ```python code block and nothing else.

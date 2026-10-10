@@ -1,0 +1,146 @@
+{
+  "metrics": {
+    "mode": "v1",
+    "label": "v1",
+    "pairs": 8,
+    "tp": 2,
+    "fn": 0,
+    "fp": 3,
+    "tn": 3,
+    "recall": 1.0,
+    "precision": 0.4,
+    "cost_usd": 0.1113,
+    "seconds": 61.3
+  },
+  "rows": [
+    {
+      "flagged": true,
+      "conflicts": [
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "failed_tests": [
+        "tests.test_orders::test_order_charges_total_in_cents",
+        "tests.test_orders::test_order_lines_capture_prices",
+        "tests.test_orders::test_gateway_tracks_totals_per_customer",
+        "tests.test_pricing::test_quote_amounts_are_int_cents",
+        "tests.test_pricing::test_small_order_fee_below_threshold",
+        "tests.test_pricing::test_quote_with_small_order_fee",
+        "tests.test_receipts::test_receipt_shows_lines_and_totals"
+      ],
+      "cost_usd": 0.023414,
+      "evidence": "existing test failures",
+      "name": "fee_x_cents",
+      "truth": "interference",
+      "seconds": 11.7,
+      "correct": true
+    },
+    {
+      "flagged": true,
+      "conflicts": [
+        "shop/orders.py",
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "failed_tests": [
+        "tests.test_orders::test_order_charges_total_in_cents",
+        "tests.test_orders::test_order_lines_capture_prices",
+        "tests.test_orders::test_order_with_save10_charges_discounted_total",
+        "tests.test_orders::test_gateway_tracks_totals_per_customer",
+        "tests.test_pricing::test_quote_amounts_are_int_cents",
+        "tests.test_pricing::test_save10_takes_ten_percent_at_minimum",
+        "tests.test_pricing::test_quote_with_save10_taxes_discounted_subtotal",
+        "tests.test_pricing::test_quote_with_save10_below_minimum",
+        "tests.test_receipts::test_receipt_shows_lines_and_totals",
+        "tests.test_receipts::test_receipt_shows_discount"
+      ],
+      "cost_usd": 0.041082,
+      "evidence": "existing test failures",
+      "name": "save10_x_cents",
+      "truth": "interference",
+      "seconds": 14.5,
+      "correct": true
+    },
+    {
+      "flagged": true,
+      "conflicts": [
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "failed_tests": [
+        "tests.test_pricing::test_quote_with_small_order_fee"
+      ],
+      "cost_usd": 0.033644,
+      "evidence": "existing test failures",
+      "name": "save10_x_fee",
+      "truth": "benign",
+      "seconds": 12.1,
+      "correct": false
+    },
+    {
+      "flagged": true,
+      "conflicts": [
+        "tests/test_pricing.py"
+      ],
+      "failed_tests": [
+        "tests.test_orders::test_order_in_maharashtra",
+        "tests.test_pricing::test_maharashtra_tax",
+        "tests.test_pricing::test_quote_in_maharashtra"
+      ],
+      "cost_usd": 0.01318,
+      "evidence": "existing test failures",
+      "name": "region_x_cents",
+      "truth": "benign",
+      "seconds": 7.9,
+      "correct": false
+    },
+    {
+      "flagged": true,
+      "conflicts": [],
+      "failed_tests": [
+        "tests.test_pricing::test_quote_in_maharashtra"
+      ],
+      "cost_usd": 0.0,
+      "evidence": "existing test failures",
+      "name": "region_x_fee",
+      "truth": "benign",
+      "seconds": 3.8,
+      "correct": false
+    },
+    {
+      "flagged": false,
+      "conflicts": [],
+      "failed_tests": [],
+      "cost_usd": 0.0,
+      "evidence": "",
+      "name": "currency_x_cents",
+      "truth": "benign",
+      "seconds": 3.8,
+      "correct": true
+    },
+    {
+      "flagged": false,
+      "conflicts": [],
+      "failed_tests": [],
+      "cost_usd": 0.0,
+      "evidence": "",
+      "name": "currency_x_region",
+      "truth": "benign",
+      "seconds": 3.8,
+      "correct": true
+    },
+    {
+      "flagged": false,
+      "conflicts": [],
+      "failed_tests": [],
+      "cost_usd": 0.0,
+      "evidence": "",
+      "name": "currency_x_save10",
+      "truth": "benign",
+      "seconds": 3.7,
+      "correct": true
+    }
+  ],
+  "suite": "C:\\Users\\Aman\\Desktop\\NeatHack\\interlock\\eval\\scenarios.json",
+  "at": "2026-10-11 02:47:30"
+}

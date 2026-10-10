@@ -4,6 +4,8 @@
 # Agents run one after another: they still all start from the same base commit (that is what makes
 # them "parallel" for integration), and Entire's commit hook can block when several sessions are
 # active in one repository at once.
+# Entire's prepare-commit-msg hook hangs in headless sessions here, so agents run with git hooks
+# disabled and each agent's commit is linked to its session afterwards with `entire session attach`.
 # Usage: scripts/fleet.sh <path-to-interlock-demo-shop> [issue numbers...]
 set -u
 export PATH="$HOME/.local/bin:$PATH"   # Entire hooks skip silently if `entire` is not on PATH
@@ -22,13 +24,15 @@ done
 for n in "${NUMS[@]}"; do
   (
     cd "$WT/issue-$n" &&
-    claude -p "$(cat "$ISSUES_DIR/issue-$n.md")" \
+    GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/dev/null     claude -p "$(cat "$ISSUES_DIR/issue-$n.md")" \
       --permission-mode acceptEdits \
       --allowedTools Read Edit Write Glob Grep \
         "Bash(uv run pytest:*)" "Bash(uv run python:*)" \
         "Bash(git status:*)" "Bash(git diff:*)" "Bash(git add:*)" "Bash(git commit:*)" "Bash(git log:*)" \
       --output-format json > "$LOGS/issue-$n.json" 2> "$LOGS/issue-$n.err"
     echo "issue-$n exited $?"
+    SID=$(python -c "import json,sys; print(json.load(open(sys.argv[1])).get('session_id',''))" "$LOGS/issue-$n.json" 2>/dev/null)
+    [ -n "$SID" ] && GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/dev/null       entire session attach "$SID" --force </dev/null | tail -1
   )
 done
 for n in "${NUMS[@]}"; do
