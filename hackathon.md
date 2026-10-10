@@ -64,6 +64,26 @@ Status of each item:
   - `git merge-tree` reports textual conflicts for all 3 pairs, because all 3 agents rewrote `quote()`.
   - In the #1 + #2 merge, git **auto-merged without any conflict** `SMALL_ORDER_FEE = 1.50` and `SMALL_ORDER_THRESHOLD = 15.00` (dollars) next to #1's `FREE_SHIPPING_THRESHOLD = 5000` (cents). That is a silent unit mismatch which survives a textual resolution. This is the kind of interference Interlock must prove.
 
+### 2026-10-11 01:30-01:45: L0 Prover works on real agent branches (completed)
+- Built `interlock prove X Y`:
+  - `tools.py`: traced subprocess wrapper;
+  - `gitops.py`: temp worktrees and merges with repo hooks disabled;
+  - `entire.py`: `entire graph diff/impact` plus `entire why` intent;
+  - `testrun.py`: pytest + JUnit parsing;
+  - `llm.py`: LiteLLM via `neatlogs.wrap`, response cache, budget cap, cost from the `x-litellm-response-cost` header;
+  - `prover.py`: the "passes alone, fails together" oracle, both directions, with test repair;
+  - `cli.py`.
+- Bugs hit and fixed during the first runs:
+  - `entire graph impact` can return `entries: null`;
+  - Windows held the `mkstemp` temp file open, so it is now closed before pytest writes to it.
+- **Run `20261011-013325`, agent/issue-2 × agent/issue-1** (evidence in `evidence/runs/20261011-013325/`):
+  - Both branches have textual conflicts (`shop/pricing.py`, `tests/test_pricing.py`), resolved by an automated LLM resolver to simulate common practice.
+  - Overlapping entities via entire-graph: `Cart.subtotal`, `price_of`, `quote`, `round_money`, `shipping_for`, `tax_for`.
+  - Intents recovered from Entire: sessions `b5459f40` and `38dab3b0`, with their checkpoints and original prompts.
+  - Existing tests on the merge: 15 passed, 9 failed.
+  - **Both directions proven as interference.** The synthesized intent tests pass on their own branch, fail on the base and fail on the merge. Root error: `NameError: name 'round_money' is not defined`. The resolver kept #2's fee code, which calls `round_money`, but lost the import that #1 had removed.
+  - Cost: $0.0623, 47 s.
+
 ### Planned next
 - Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
 - Builder confirms creating the public GitHub repos, then push.

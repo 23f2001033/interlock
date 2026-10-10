@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-interlock = "interlock:main"
+interlock = "interlock.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.11.28,<0.12.0"]

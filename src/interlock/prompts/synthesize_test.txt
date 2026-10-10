@@ -1,0 +1,32 @@
+You write ONE pytest test file that checks whether the intent of a code change still holds.
+
+## Change X (the change whose intent you must test)
+Task the author of X was given:
+{x_intent}
+
+Diff of X against the common base:
+```diff
+{x_diff}
+```
+
+## Change Y (developed in parallel; it will be merged with X)
+Task the author of Y was given:
+{y_intent}
+
+Source diff of Y against the common base:
+```diff
+{y_diff}
+```
+
+## The merged code (X + Y), files touched by both changes
+{merged_files}
+
+## Requirements
+- Test the behavior that X's task asks for, as concretely as possible (specific inputs and expected outputs).
+- The test MUST pass on branch X as written.
+- It will also run on the merged code, so only call functions and arguments that exist in BOTH the X version and the merged version.
+- Assert on externally observable behavior (values that cross a system boundary, such as amounts sent to an external service, rendered text, or results of top-level entry points), not on internal representations that change Y may legitimately alter.
+- Do not test anything that only Y's task asks for. Do not encode Y's changes as bugs.
+- Keep it small: 1-3 test functions, no fixtures from conftest, import only from the project and the standard library.
+
+Reply with the complete test file in a single ```python code block and nothing else.

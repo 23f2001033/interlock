@@ -1,0 +1,14 @@
+The test file below must PASS on branch X, but it fails there. Fix the TEST (not the code under test)
+so it correctly checks X's intended behavior and passes on X. Keep the same requirements as before.
+
+Test file:
+```python
+{test}
+```
+
+pytest output on branch X:
+```
+{output}
+```
+
+Reply with the complete corrected test file in a single ```python code block and nothing else.

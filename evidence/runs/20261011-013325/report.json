@@ -1,0 +1,93 @@
+{
+  "run_id": "20261011-013325",
+  "repo": "C:\\Users\\Aman\\Desktop\\NeatHack\\interlock-demo-shop",
+  "x": "agent/issue-2",
+  "y": "agent/issue-1",
+  "base": "7950d868b7",
+  "resolution": "llm",
+  "conflicted_files": [
+    "shop/pricing.py",
+    "tests/test_pricing.py"
+  ],
+  "overlap": [
+    "Cart.subtotal",
+    "price_of",
+    "quote",
+    "round_money",
+    "shipping_for",
+    "tax_for"
+  ],
+  "intents": {
+    "agent/issue-2": {
+      "sessions": [
+        {
+          "session_id": "b5459f40-1a1a-4ecf-8d13-34b5386cb0e1",
+          "checkpoint_id": "01M4KNS1S0ZXHCS4VV4EBT8BZE",
+          "agent": "Claude Code",
+          "model": "claude-opus-5-5",
+          "prompt": "# Add a small-order fee (#2)\n\nOrders with a subtotal under $15.00 should pay a $1.50 small-order fee.\n\nShow it as a separate `fee` entry in the quote and include it in the total. Tax still applies to the subtotal only. Add tests.",
+          "commit": "1b2f33bb"
+        }
+      ],
+      "sampled_lines": 3,
+      "human_lines": 0
+    },
+    "agent/issue-1": {
+      "sessions": [
+        {
+          "session_id": "38dab3b0-7514-44fb-b1c3-adb6af2f8650",
+          "checkpoint_id": "01M4KNS0TF70B4VB0GM2B406WN",
+          "agent": "Claude Code",
+          "model": "claude-opus-5-5",
+          "prompt": "# Represent money as integer cents end-to-end (#1)\n\nWe keep seeing 1-cent mismatches between quoted totals and what the gateway charges, because amounts are floats in dollars.\n\nSwitch the shop to integer cents everywhere: catalog prices, cart subtotal, shipping, tax, quote totals and order amounts should all be `int` cents. Convert to a dollar string only when displaying (receipts). Keep behavior the same for customers (same prices, same rounding of tax to the nearest cent). Update the tests.",
+          "commit": "c6b4dcac"
+        }
+      ],
+      "sampled_lines": 8,
+      "human_lines": 0
+    }
+  },
+  "existing_tests_on_merge": {
+    "collected": true,
+    "passed": 15,
+    "failed": [
+      "tests.test_orders::test_order_charges_total_in_cents",
+      "tests.test_orders::test_order_lines_capture_prices",
+      "tests.test_orders::test_gateway_tracks_totals_per_customer",
+      "tests.test_pricing::test_quote_breakdown",
+      "tests.test_pricing::test_quote_amounts_are_int_cents",
+      "tests.test_pricing::test_quote_with_free_shipping",
+      "tests.test_pricing::test_small_order_fee_below_threshold",
+      "tests.test_pricing::test_quote_with_small_order_fee",
+      "tests.test_receipts::test_receipt_shows_lines_and_totals"
+    ]
+  },
+  "directions": [
+    {
+      "intent_of": "agent/issue-2",
+      "against": "agent/issue-1",
+      "verdict": "interference",
+      "test": "import pytest\n\nfrom shop.cart import Cart\nfrom shop.pricing import quote\n\n\ndef test_small_order_fee_present_in_quote_below_threshold():\n    \"\"\"A cart with subtotal under $15 should have a non-zero fee in the quote.\"\"\"\n    cart = Cart()\n    cart.add(\"BAG-01\")  # $9.95 / 995 cents\n    q = quote(cart, \"EU-DE\")\n    assert \"fee\" in q\n    # Fee should be $1.50 (in dollars) or 150 (in cents) \u2014 check it's non-zero\n    assert q[\"fee\"] != 0\n\n\ndef test_no_small_order_fee_above_threshold():\n    \"\"\"A cart with subtotal at or above $15 should have zero fee.\"\"\"\n    cart = Cart()\n    cart.add(\"MUG-01\")  # $12.50, add two to get $25.00 >= $15\n    cart.add(\"MUG-01\")\n    q = quote(cart, \"US-CA\")\n    assert \"fee\" in q\n    assert q[\"fee\"] == 0 or q[\"fee\"] == 0.0\n\n\ndef test_small_order_fee_included_in_total():\n    \"\"\"The total for a small order should include the small-order fee; tax applies to subtotal only.\"\"\"\n    cart = Cart()\n    cart.add(\"BAG-01\")  # subtotal = $9.95 / 995 cents\n    q = quote(cart, \"EU-DE\")\n    # Verify fee is present and positive\n    assert q[\"fee\"] > 0\n    # Verify total equals subtotal + shipping + fee + tax\n    assert q[\"total\"] == q[\"subtotal\"] + q[\"shipping\"] + q[\"fee\"] + q[\"tax\"]\n    # Verify tax is on subtotal only (not on fee)\n    # EU-DE rate is 0.19; tax on 9.95 = 1.8905 -> rounds to 1.89 (dollars) or 189 cents\n    # tax should NOT include fee in its base\n    expected_tax_dollars = round(9.95 * 0.19, 2)  # ~1.89\n    expected_tax_cents = 189\n    # Accept either representation\n    assert q[\"tax\"] == expected_tax_dollars or q[\"tax\"] == expected_tax_cents\n",
+      "on_own_branch": "passed",
+      "on_base": "failed",
+      "on_merge": "failed",
+      "failure": "_______\n\n    def test_small_order_fee_included_in_total():\n        \"\"\"The total for a small order should include the small-order fee; tax applies to subtotal only.\"\"\"\n        cart = Cart()\n        cart.add(\"BAG-01\")  # subtotal = $9.95 / 995 cents\n>       q = quote(cart, \"EU-DE\")\n            ^^^^^^^^^^^^^^^^^^^^\n\ntests\\test_interlock_intent.py:31: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\ncart = <shop.cart.Cart object at 0x0000018A26268750>, region = 'EU-DE'\n\n    def quote(cart: Cart, region: str) -> dict[str, float]:\n        \"\"\"Price breakdown for a cart: subtotal, shipping, small-order fee, tax (on the subtotal) and total.\"\"\"\n        subtotal = cart.subtotal()\n        shipping = shipping_for(subtotal)\n        fee = fee_for(subtotal)\n        tax = tax_for(subtotal, region)\n        return {\n            \"subtotal\": subtotal,\n            \"shipping\": shipping,\n            \"fee\": fee,\n            \"tax\": tax,\n>           \"total\": round_money(subtotal + shipping + fee + tax),\n                     ^^^^^^^^^^^\n        }\nE       NameError: name 'round_money' is not defined\n\nshop\\pricing.py:45: NameError\n=========================== short test summary info ===========================\nFAILED tests/test_interlock_intent.py::test_small_order_fee_present_in_quote_below_threshold\nFAILED tests/test_interlock_intent.py::test_no_small_order_fee_above_threshold\nFAILED tests/test_interlock_intent.py::test_small_order_fee_included_in_total\n3 failed in 0.13s\n",
+      "repairs": 0
+    },
+    {
+      "intent_of": "agent/issue-1",
+      "against": "agent/issue-2",
+      "verdict": "interference",
+      "test": "\"\"\"Tests for Change X: integer cents representation end-to-end.\"\"\"\n\nimport pytest\n\nfrom shop.cart import Cart\nfrom shop.catalog import price_of\nfrom shop.money import format_money, apply_rate\nfrom shop.payments import PaymentGateway\nfrom shop.orders import place_order\n\n\ndef test_catalog_prices_and_cart_subtotal_are_integer_cents():\n    # Catalog prices must be int cents\n    assert price_of(\"MUG-01\") == 1250\n    assert price_of(\"TEE-01\") == 1999\n    assert price_of(\"CAP-01\") == 1500\n    assert price_of(\"BAG-01\") == 995\n    assert type(price_of(\"MUG-01\")) is int\n\n    # Cart subtotal must be int cents\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    assert cart.subtotal() == 3998\n    assert type(cart.subtotal()) is int\n\n    cart2 = Cart()\n    cart2.add(\"MUG-01\", 3)\n    assert cart2.subtotal() == 3750\n    assert type(cart2.subtotal()) is int\n\n\ndef test_format_money_converts_cents_to_dollar_string():\n    assert format_money(0) == \"$0.00\"\n    assert format_money(5) == \"$0.05\"\n    assert format_money(1999) == \"$19.99\"\n    assert format_money(123450) == \"$1,234.50\"\n    assert format_money(-250) == \"-$2.50\"\n\n\ndef test_order_total_and_gateway_charge_are_integer_cents():\n    # Two TEE-01 at 1999 cents each = 3998 cents subtotal\n    # Shipping: 500 cents (below 5000 threshold)\n    # Tax US-CA: apply_rate(3998, 0.0725) = 290 cents\n    # Total: 3998 + 500 + 290 = 4788 cents\n    cart = Cart()\n    cart.add(\"TEE-01\", 2)\n    gateway = PaymentGateway()\n    order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n\n    assert order.total == 4788\n    assert type(order.total) is int\n    assert gateway.charges[0].amount_cents == 4788\n    assert gateway.charges[0].amount_cents == order.total\n\n    # Order line prices are int cents\n    line = order.lines[0]\n    assert line.unit_price == 1999\n    assert line.line_total == 3998\n    assert type(line.unit_price) is int\n    assert type(line.line_total) is int\n",
+      "on_own_branch": "passed",
+      "on_base": "failed",
+      "on_merge": "failed",
+      "failure": "ply_rate(3998, 0.0725) = 290 cents\n        # Total: 3998 + 500 + 290 = 4788 cents\n        cart = Cart()\n        cart.add(\"TEE-01\", 2)\n        gateway = PaymentGateway()\n>       order = place_order(cart, \"cus_1\", \"US-CA\", gateway)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests\\test_interlock_intent.py:48: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\nshop\\orders.py:40: in place_order\n    q = quote(cart, region)\n        ^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\ncart = <shop.cart.Cart object at 0x0000018B830D12D0>, region = 'US-CA'\n\n    def quote(cart: Cart, region: str) -> dict[str, float]:\n        \"\"\"Price breakdown for a cart: subtotal, shipping, small-order fee, tax (on the subtotal) and total.\"\"\"\n        subtotal = cart.subtotal()\n        shipping = shipping_for(subtotal)\n        fee = fee_for(subtotal)\n        tax = tax_for(subtotal, region)\n        return {\n            \"subtotal\": subtotal,\n            \"shipping\": shipping,\n            \"fee\": fee,\n            \"tax\": tax,\n>           \"total\": round_money(subtotal + shipping + fee + tax),\n                     ^^^^^^^^^^^\n        }\nE       NameError: name 'round_money' is not defined\n\nshop\\pricing.py:45: NameError\n=========================== short test summary info ===========================\nFAILED tests/test_interlock_intent.py::test_order_total_and_gateway_charge_are_integer_cents\n1 failed, 2 passed in 0.09s\n",
+      "repairs": 0
+    }
+  ],
+  "llm_calls": 2,
+  "llm_cache_hits": 2,
+  "cost_usd": 0.062297,
+  "seconds": 47.0
+}
