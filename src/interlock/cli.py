@@ -1,5 +1,6 @@
 """Interlock command line."""
 
+import json
 from pathlib import Path
 
 import typer
@@ -72,6 +73,53 @@ def resolve(
         typer.echo(f"  round {r['round']}: head {r['head']} -> {state}")
     typer.echo(f"  Interlock LLM cost: ${st.get('llm_cost_usd', 0):.4f}")
     typer.echo(f"  state: {state_dir / 'runs' / st['run_id'] / 'state.json'}")
+
+
+@app.command()
+def land(
+    branches: list[str] = typer.Argument(..., help="Branches to land"),
+    into: str = typer.Option("main", help="Target branch"),
+    repo: Path = typer.Option(Path("."), help="Target git repository"),
+    rounds: int = typer.Option(3, help="Max fix rounds per branch before escalating"),
+    budget: float = typer.Option(2.0, help="Max LLM spend per proof/coordination, USD"),
+    state_dir: Path = typer.Option(Path(".interlock"), help="Where runs, cache and worktrees live"),
+):
+    """Goal mode: land all branches onto the target, proving each integration and coordinating agents."""
+    load_dotenv()
+    from interlock.lander import land as run_land
+    from interlock.tracing import init_tracing
+
+    init_tracing(tags=["land"])
+    st = run_land(repo.resolve(), branches, into, state_dir.resolve(), rounds=rounds, budget_usd=budget)
+    typer.echo(f"\nInterlock {st['run_id']}: goal '{st['goal']}' -> {st['status'].upper()} in {st['seconds']}s")
+    for e in st["events"]:
+        info = {k: v for k, v in e.items() if k not in ("at", "event")}
+        typer.echo(f"  {e['at']} {e['event']:<10} {json.dumps(info)[:220]}")
+    typer.echo(f"  state: {state_dir / 'runs' / st['run_id'] / 'state.json'}")
+
+
+@app.command(name="eval")
+def eval_cmd(
+    mode: str = typer.Option("v2", help="v1 = merge queue baseline, v2 = Interlock"),
+    suite: Path = typer.Option(Path("eval/scenarios.json"), help="Labelled scenario file"),
+    repo: Path = typer.Option(Path("."), help="Target git repository"),
+    fresh: bool = typer.Option(True, help="Bypass the cache for test synthesis (honest cost numbers)"),
+    state_dir: Path = typer.Option(Path(".interlock"), help="Where runs, cache and worktrees live"),
+):
+    """Score v1 (merge queue) or v2 (Interlock) on labelled branch pairs."""
+    load_dotenv()
+    from interlock.evaluate import evaluate
+    from interlock.tracing import init_tracing
+
+    init_tracing(tags=["eval", mode])
+    out = evaluate(repo.resolve(), suite.resolve(), mode, state_dir.resolve(), fresh=fresh)
+    m = out["metrics"]
+    typer.echo(f"\n{mode}: recall {m['recall']} precision {m['precision']} (tp {m['tp']} fn {m['fn']} fp {m['fp']} tn {m['tn']})"
+               f" cost ${m['cost_usd']} time {m['seconds']}s")
+    for r in out["rows"]:
+        mark = "ok " if r["correct"] else "BAD"
+        typer.echo(f"  [{mark}] {r['name']:<22} truth={r['truth']:<12} flagged={str(r['flagged']):<5} "
+                   f"${r.get('cost_usd', 0):.4f} {r['seconds']}s {r.get('evidence', '')[:90]}")
 
 
 @app.command()

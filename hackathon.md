@@ -105,6 +105,28 @@ Status of each item:
   - Interlock's own LLM cost was $0.0011. The agent reported an equivalent cost of $0.85. 01:39:02 → 01:40:24.
 - Pushed `agent/issue-1..3` and **4 Entire checkpoint refs** to `github.com/23f2001033/interlock-demo-shop`.
 
+### 2026-10-11 02:00-02:45: L2 goal mode lands all three agent branches (completed)
+- Built `interlock land B1 B2 ... --into T` (`lander.py`):
+  1. plan a landing order from entire-graph dependents (providers first);
+  2. for each branch, check whether it is already integrated, then prove it against the current target;
+  3. coordinate the branch's agent when there is interference or a textual conflict;
+  4. land by merging in a scratch worktree, running the full suite, then **compare-and-swapping** the target ref;
+  5. on drift (someone else moved the target), find the remaining branches whose entities the new commits touch and re-check only those;
+  6. run the final suite.
+
+  `scripts/teammate_push.sh` simulates a human teammate pushing to the target mid-run.
+- **Run `land-20261011-023216` → DONE in ~4 min** (evidence: `evidence/runs/land-20261011-023216/`, `evidence/runs/20261011-023314/`):
+  - Plan: issue-2 → issue-1 → issue-3. issue-2 landed by fast-forward (30 tests). issue-1 was proven to hold against the target and landed (32 tests, now including the teammate's banner tests).
+  - issue-3 against the target: **interference in both directions**, plus textual conflicts in 3 files. Interlock resumed agent #3's own session `6114927c`; the agent merged the target and adapted SAVE10 to cents in 1 round (26 turns). Interlock re-verified and landed it.
+  - **Final suite: 48 passed, 0 failed.**
+- **Bugs found by this run, then fixed:**
+  1. A branch already contained in the target (issue-1 inside issue-2) was re-proved instead of skipped. Added an `already_integrated` check.
+  2. **Drift went undetected.** The teammate pushed *while* issue-1 was being proven, and `_land_one` re-read the target at landing time instead of compare-and-swapping against the commit the proof had verified. Fixed: landing now CASes from the verified commit, so a concurrent push fails the swap, is recorded as drift, and triggers a re-check if the branch is affected.
+- Added unit tests for Interlock itself (`tests/test_core.py`): diff-line parsing, owner worktree lookup, compare-and-swap against a concurrent push, conflict detection, code extraction. **Tests run: 5 passed.**
+- Added `interlock eval` (v1 merge-queue baseline vs v2 Interlock on labelled pairs, with an honest-cost mode that bypasses the cache) and `scripts/market_size.py` (Crustdata). **Crustdata results:**
+  - 125,562 job postings since 2026-01-01 mention AI coding tools ("claude code" 76,842; "github copilot" 59,306; "coding agents" 15,769);
+  - at least 1,000 distinct companies (the API caps buckets at 1,000).
+
 ### Planned next
 - Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
 - Builder confirms creating the public GitHub repos, then push.

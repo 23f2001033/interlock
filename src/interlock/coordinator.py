@@ -118,13 +118,13 @@ def verify(repo: Path, ref: str, tests: dict[str, str], wt_path: Path) -> dict:
 
 
 def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget_usd: float = 1.0,
-            resume: str | None = None) -> dict:
+            resume: str | None = None, force_adapts: str | None = None, report: dict | None = None) -> dict:
     llm = LLM(state_dir, budget_usd=budget_usd)
     with neatlogs.trace("interlock.resolve", kind="WORKFLOW", **{"interlock.pair": f"{x}|{y}"}) as root:
         if resume:
             st = Run.load(state_dir / "runs" / resume / "state.json")
         else:
-            report = asdict(prove(repo, x, y, state_dir, budget_usd=budget_usd))
+            report = report or asdict(prove(repo, x, y, state_dir, budget_usd=budget_usd))
             st = Run(state_dir / "runs" / report["run_id"] / "state.json",
                      {"run_id": report["run_id"], "x": x, "y": y, "report": report, "status": "proved", "rounds": []})
             st.step("prove", verdicts=[d["verdict"] for d in report["directions"]])
@@ -133,7 +133,7 @@ def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget
         if st.data.get("status") in ("resolved", "escalated", "no_interference"):
             return st.data
 
-        if not any(d["verdict"] == "interference" for d in report["directions"]):
+        if not any(d["verdict"] == "interference" for d in report["directions"]) and not report.get("conflicted_files"):
             st.data["status"] = "no_interference"
             st.save()
             return st.data
@@ -143,7 +143,10 @@ def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget
 
         if "adapts" not in st.data:
             with neatlogs.trace("decide", kind="AGENT") as span:
-                side, reason = who_adapts(llm, report)
+                if force_adapts:
+                    side, reason = force_adapts, f"{force_adapts} is landing onto already-integrated code, so it adapts"
+                else:
+                    side, reason = who_adapts(llm, report)
                 span.set_attribute("interlock.adapts", side)
             other = y if side == x else x
             summary = llm.complete([{"role": "user", "content": _prompt(

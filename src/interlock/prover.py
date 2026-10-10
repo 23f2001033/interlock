@@ -61,6 +61,7 @@ class PairReport:
     llm_calls: int = 0
     llm_cache_hits: int = 0
     cost_usd: float = 0.0
+    tokens_in: int = 0
     seconds: float = 0.0
 
 
@@ -140,13 +141,13 @@ def _prove_direction(llm: LLM, repo: Path, d: Direction, own_wt: Path, base_wt: 
 
 
 def prove(repo: Path, x: str, y: str, state_dir: Path, merged: str | None = None,
-          budget_usd: float = 1.0) -> PairReport:
+          budget_usd: float = 1.0, fresh: bool = False) -> PairReport:
     started = time.time()
     run_id = time.strftime("%Y%m%d-%H%M%S")
     run_dir = state_dir / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
     wts = state_dir / "worktrees" / run_id
-    llm = LLM(state_dir, budget_usd=budget_usd)
+    llm = LLM(state_dir, budget_usd=budget_usd, no_cache={"synthesize_test", "repair_test"} if fresh else None)
     X, Y = gitops.rev(repo, x), gitops.rev(repo, y)
     base = gitops.merge_base(repo, X, Y)
     report = PairReport(run_id, str(repo), x, y, base[:10])
@@ -194,6 +195,7 @@ def prove(repo: Path, x: str, y: str, state_dir: Path, merged: str | None = None
                 gitops.remove_worktree(repo, path)
             report.llm_calls, report.llm_cache_hits = llm.calls, llm.cache_hits
             report.cost_usd = round(llm.spent_usd, 6)
+            report.tokens_in = llm.tokens_in
             report.seconds = round(time.time() - started, 1)
             root.set_attribute("interlock.verdicts", ",".join(d.verdict for d in report.directions))
             root.set_attribute("interlock.cost_usd", report.cost_usd)

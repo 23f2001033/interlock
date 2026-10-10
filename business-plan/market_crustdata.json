@@ -1,0 +1,102 @@
+{
+  "source": "Crustdata /job/search (x-api-version 2025-11-01)",
+  "since": "2026-01-01",
+  "per_phrase": {
+    "claude code": {
+      "total_count": 76842,
+      "aggregations": [
+        {
+          "type": "count",
+          "field": null,
+          "value": 76842
+        }
+      ],
+      "error": null,
+      "detail": null
+    },
+    "coding agents": {
+      "total_count": 15769,
+      "aggregations": [
+        {
+          "type": "count",
+          "field": null,
+          "value": 15769
+        }
+      ],
+      "error": null,
+      "detail": null
+    },
+    "ai coding assistant": {
+      "total_count": 701,
+      "aggregations": [
+        {
+          "type": "count",
+          "field": null,
+          "value": 701
+        }
+      ],
+      "error": null,
+      "detail": null
+    },
+    "github copilot": {
+      "total_count": 59306,
+      "aggregations": [
+        {
+          "type": "count",
+          "field": null,
+          "value": 59306
+        }
+      ],
+      "error": null,
+      "detail": null
+    },
+    "cursor ai": {
+      "total_count": 1320,
+      "aggregations": [
+        {
+          "type": "count",
+          "field": null,
+          "value": 1320
+        }
+      ],
+      "error": null,
+      "detail": null
+    },
+    "codex cli": {
+      "total_count": 297,
+      "aggregations": [
+        {
+          "type": "count",
+          "field": null,
+          "value": 297
+        }
+      ],
+      "error": null,
+      "detail": null
+    }
+  },
+  "any_phrase": {
+    "total_count": 125562,
+    "aggregations": [
+      {
+        "type": "count",
+        "field": null,
+        "value": 125562
+      }
+    ],
+    "error": null,
+    "detail": null
+  },
+  "any_phrase_companies": {
+    "distinct_companies_at_least": 1000,
+    "capped_at": 1000,
+    "error": null,
+    "detail": null,
+    "raw_shape": [
+      "type",
+      "field",
+      "buckets"
+    ]
+  },
+  "note": "Distinct-company count is a lower bound: Crustdata group_by buckets are capped at 1000."
+}

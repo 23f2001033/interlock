@@ -23,7 +23,7 @@ def entity_changes(wt: Path, base: str, head: str) -> list[dict]:
     data = _json(["graph", "diff", "--base", base, "--head", head, "--json"], wt)
     if not data:
         return []
-    return [{"path": f["path"], **c} for f in data.get("files", []) for c in f.get("changes", [])]
+    return [{"path": f["path"], **c} for f in (data.get("files") or []) for c in (f.get("changes") or [])]
 
 
 def callers(wt: Path, symbol: str, file: str | None = None) -> list[dict]:
@@ -42,7 +42,7 @@ def callers(wt: Path, symbol: str, file: str | None = None) -> list[dict]:
 
 def why(wt: Path, file: str, line: int) -> dict | None:
     data = _json(["why", f"{file}:{line}", "--json"], wt, timeout=60)
-    return (data or {}).get("line")
+    return (data or {}).get("line") or None
 
 
 def intent(repo: Path, wt: Path, base: str, head: str, max_lines: int = 8) -> dict:

@@ -1,0 +1,174 @@
+{
+  "run_id": "land-20261011-023216",
+  "into": "interlock-demo",
+  "goal": "land agent/issue-1, agent/issue-2, agent/issue-3 on interlock-demo",
+  "events": [
+    {
+      "at": "02:32:19",
+      "event": "plan",
+      "order": [
+        "agent/issue-2",
+        "agent/issue-1",
+        "agent/issue-3"
+      ]
+    },
+    {
+      "at": "02:32:23",
+      "event": "landed",
+      "branch": "agent/issue-2",
+      "head": "5418237052",
+      "detail": "30 tests passed"
+    },
+    {
+      "at": "02:33:09",
+      "event": "prove",
+      "branch": "agent/issue-1",
+      "against": "interlock-demo",
+      "verdicts": [
+        "holds",
+        "holds"
+      ],
+      "conflicts": [],
+      "run": "20261011-023223"
+    },
+    {
+      "at": "02:33:14",
+      "event": "landed",
+      "branch": "agent/issue-1",
+      "head": "e5bb4c4292",
+      "detail": "32 tests passed"
+    },
+    {
+      "at": "02:34:09",
+      "event": "prove",
+      "branch": "agent/issue-3",
+      "against": "interlock-demo",
+      "verdicts": [
+        "interference",
+        "interference"
+      ],
+      "conflicts": [
+        "shop/orders.py",
+        "shop/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "run": "20261011-023314"
+    },
+    {
+      "at": "02:36:10",
+      "event": "coordinate",
+      "branch": "agent/issue-3",
+      "status": "resolved",
+      "rounds": 1,
+      "run": "20261011-023314"
+    },
+    {
+      "at": "02:36:15",
+      "event": "landed",
+      "branch": "agent/issue-3",
+      "head": "e08452fe31",
+      "detail": "48 tests passed"
+    },
+    {
+      "at": "02:36:21",
+      "event": "finish",
+      "status": "done",
+      "landed": [
+        "agent/issue-2",
+        "agent/issue-1",
+        "agent/issue-3"
+      ],
+      "escalated": [],
+      "final_suite": {
+        "passed": 48,
+        "failed": []
+      }
+    }
+  ],
+  "landed": [
+    "agent/issue-2",
+    "agent/issue-1",
+    "agent/issue-3"
+  ],
+  "escalated": [],
+  "plan": {
+    "order": [
+      "agent/issue-2",
+      "agent/issue-1",
+      "agent/issue-3"
+    ],
+    "branches": [
+      {
+        "branch": "agent/issue-1",
+        "base": "7950d868b7",
+        "entities": [
+          "Cart",
+          "Cart.subtotal",
+          "Order",
+          "OrderLine",
+          "Product",
+          "apply_rate",
+          "format_money",
+          "place_order",
+          "price_of",
+          "quote",
+          "round_money",
+          "shipping_for",
+          "tax_for"
+        ],
+        "dependents": 56,
+        "shares_with": [
+          "agent/issue-2",
+          "agent/issue-3"
+        ]
+      },
+      {
+        "branch": "agent/issue-2",
+        "base": "7950d868b7",
+        "entities": [
+          "Cart",
+          "Cart.subtotal",
+          "Order",
+          "OrderLine",
+          "Product",
+          "apply_rate",
+          "fee_for",
+          "format_money",
+          "place_order",
+          "price_of",
+          "quote",
+          "round_money",
+          "shipping_for",
+          "tax_for"
+        ],
+        "dependents": 81,
+        "shares_with": [
+          "agent/issue-1",
+          "agent/issue-3"
+        ]
+      },
+      {
+        "branch": "agent/issue-3",
+        "base": "7950d868b7",
+        "entities": [
+          "Order",
+          "discount_for",
+          "place_order",
+          "quote",
+          "render_receipt"
+        ],
+        "dependents": 23,
+        "shares_with": [
+          "agent/issue-1",
+          "agent/issue-2"
+        ]
+      }
+    ]
+  },
+  "final_suite": {
+    "passed": 48,
+    "failed": []
+  },
+  "status": "done",
+  "seconds": 244.6
+}

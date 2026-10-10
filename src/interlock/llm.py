@@ -20,7 +20,7 @@ class BudgetExceeded(RuntimeError):
 
 
 class LLM:
-    def __init__(self, state_dir: Path, budget_usd: float = 1.0):
+    def __init__(self, state_dir: Path, budget_usd: float = 1.0, no_cache: set[str] | None = None):
         self.client = neatlogs.wrap(OpenAI(
             api_key=os.environ["LITELLM_API_KEY"],
             base_url=os.environ.get("LITELLM_BASE_URL", "https://litellm.vision.aivar.app/v1"),
@@ -31,6 +31,9 @@ class LLM:
         self.spent_usd = 0.0
         self.calls = 0
         self.cache_hits = 0
+        self.no_cache = no_cache or set()   # purposes that must hit the model (for honest cost measurement)
+        self.tokens_in = 0
+        self.tokens_out = 0
 
     def complete(self, messages: list[dict], model: str = STRONG, purpose: str = "",
                  max_tokens: int = 2000, temperature: float = 0.0) -> str:
@@ -38,7 +41,7 @@ class LLM:
         cached = self.cache_dir / f"{key}.json"
         with neatlogs.trace(f"llm.{purpose or 'call'}", kind="CHAIN",
                             **{"interlock.model": model, "interlock.purpose": purpose}) as span:
-            if cached.exists():
+            if cached.exists() and purpose not in self.no_cache:
                 self.cache_hits += 1
                 span.set_attribute("interlock.cache_hit", True)
                 return json.loads(cached.read_text(encoding="utf-8"))["text"]
@@ -51,6 +54,10 @@ class LLM:
             cost = float(raw.headers.get("x-litellm-response-cost") or 0.0)
             self.spent_usd += cost
             self.calls += 1
+            if resp.usage:
+                self.tokens_in += resp.usage.prompt_tokens or 0
+                self.tokens_out += resp.usage.completion_tokens or 0
+                span.set_attribute("interlock.tokens_in", resp.usage.prompt_tokens or 0)
             text = resp.choices[0].message.content or ""
             span.set_attribute("interlock.cache_hit", False)
             span.set_attribute("interlock.cost_usd", cost)
