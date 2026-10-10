@@ -26,14 +26,16 @@ Why per developer: the value (prevented cross-PR regressions) grows with the num
 
 | Input | Value | Source |
 |---|---|---|
-| LLM cost per proven pair (2 intent tests, Sonnet) | **$0.062** | run `20261011-013325`, LiteLLM cost header |
+| LLM cost per checked pair, current version (v2.3: graph pre-check + second opinion + Haiku-first ladder) | **$0.047** average ($0.38 for 8 pairs) | `eval/results/v2.3-*.json` |
+| LLM cost per pair that shares no code (cleared by entire-graph) | **$0.00** | `cleared_by_graph` |
+| LLM cost per real interference (proof + confirmation, both directions) | **≈ $0.09** | eval v2.3 rows `fee_x_cents`, `save10_x_cents` |
 | LLM cost per coordination decision + summary | **$0.0011** | run `20261011-013837` |
-| Share of PR pairs needing an LLM proof (no shared entities → cleared by entire-graph for free) | to measure with `interlock eval` | eval results |
+| Accuracy on the labelled suite | recall 1.0, precision 1.0 (merge queue: precision 0.40) | `EVIDENCE.md` |
 | Agent fix turns | **$0 to us** (they run on the customer's own agent subscription) | design |
 
-**COGS per Team customer (10 devs, ~400 agent PRs/month, assume 25% need a proof):** 100 proofs × $0.062 + hosting $5 ≈ **$11/month** against **$300/month** revenue, so **gross margin ≈ 96%**.
+**COGS per Team customer (10 devs, ~400 agent PRs/month, ~2 pair checks per PR):** 800 checks × $0.047 + hosting $10 ≈ **$48/month** against **$300/month** revenue, so **gross margin ≈ 84%**. With v2.0 costs ($0.065 per check) the same customer would cost ≈ $62/month (79%).
 
-**Decision driven by the model:** if every pair needed a Sonnet proof, COGS would be about 4× higher. That is why Interlock clears pairs with entire-graph first and uses a model ladder (nova/haiku before sonnet). See the improvement loops in `EVIDENCE.md`.
+**Decision driven by the model:** inference is the only cost that grows with usage, so the margin depends on cost per check. That is why the improvement loops target it: the entire-graph pre-check (free for unrelated pairs) and the Haiku-first ladder cut cost per check from $0.065 to $0.047 (−28%) while raising precision from 0.67 to 1.0. See `EVIDENCE.md`.
 
 ## 4. Scenarios (monthly, month 12)
 
@@ -42,8 +44,8 @@ Why per developer: the value (prevented cross-PR regressions) grows with the num
 | Team customers | 40 | 120 |
 | Avg developers per customer | 10 | 12 |
 | MRR | $12,000 | $43,200 |
-| Infra + inference (COGS) | $480 | $1,700 |
-| Gross margin | 96% | 96% |
+| Infra + inference (COGS) | $1,920 | $6,600 |
+| Gross margin | 84% | 85% |
 
 ## 5. Costs and runway
 

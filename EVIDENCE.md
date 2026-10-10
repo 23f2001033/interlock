@@ -72,4 +72,4 @@ Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent bran
 
 ## 7. We wrote the code during the hackathon
 
-- Public repos [interlock](https://github.com/23f2001033/interlock) and [interlock-demo-shop](https://github.com/23f2001033/interlock-demo-shop). The first commit is dated 2026-10-11 00:17 IST, after the 2026-10-10 12:30 IST start.
+- Public repos [interlock](https://github.com/23f2001033/interlock) and [interlock-demo-shop](https://github.com/23f2001033/interlock-demo-shop). The first commit is dated 2026-10-11 00:19 IST, after the 2026-10-10 12:30 IST start.
