@@ -167,12 +167,20 @@ Status of each item:
   - Verified → **resolved in round 1** (was: escalated after 3 rounds).
 - #1 landed. **Final suite: 48 passed, 0 failed. Goal DONE in 2.5 min, no human.**
 
-### Planned next
-- Claim the LiteLLM key and add `LITELLM_API_KEY` to `.env`.
-- Builder confirms creating the public GitHub repos, then push.
-- Open a new Claude Code session in `interlock/` (captured by Entire), wire neatlogs + LiteLLM, and build L0 (Prover).
-- Run the agent fleet on issues #1-#3 in the demo repo.
-- First #neatHack post.
+### 2026-10-11 10:20-10:45: Orchestrator and neatlogs agent tracing (completed)
+- Installed Orchestrator (`ao`). `ao doctor` passes natively on Windows (ConPTY, git worktrees, claude-code and codex harnesses, gh token).
+  - `ao start` downloaded and installed the desktop app to `...\Programsgent-orchestrator\`, but then looked for it in `...\Programs\Agent Orchestrator\`: a path-mismatch bug.
+  - The app did not start its daemon when launched headlessly; it needs a first run by the builder.
+- Added `orchestrator.py`: when the adapting branch belongs to a live `ao` session, the fix request goes through `ao send`, and Interlock waits for a new commit and an idle agent before re-verifying. Otherwise it falls back to resuming the Claude Code session. Not yet exercised against a running daemon.
+- Added the neatlogs Claude Code integration to the demo repo (`neatlogs-claude-code setup --project`): 15 hooks, with the key stored in the user config, **not** in the repo (checked). A headless agent turn ran normally with both the neatlogs and Entire hooks.
+- Unit tests: 5 passed.
+
+### Planned next (Sunday)
+- Builder: open the Agent Orchestrator app once, then exercise `ao spawn` + `ao send` end to end.
+- Builder: build the cfo.ai model from `business-plan/plan.md` and export or screenshot it into `business-plan/`.
+- Builder: screenshots of the neatlogs traces (`interlock.land` tree, `agent_message`, an eval run) into `evidence/`.
+- Builder: post the queued updates and add the URLs to `EVIDENCE.md`.
+- Record the demo video (script ready), then do the final gate against the rubric.
 
 ## Demo
 
