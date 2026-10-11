@@ -19,7 +19,7 @@ from pathlib import Path
 
 import neatlogs
 
-from interlock import entire, gitops
+from interlock import entire, gitops, orchestrator
 from interlock.llm import LLM, MID, SMALL, STRONG, extract_code
 from interlock.prover import _clip, _intent_text, _prompt, prove
 from interlock.testrun import pytest
@@ -210,8 +210,10 @@ def resolve(repo: Path, x: str, y: str, state_dir: Path, rounds: int = 3, budget
                     other_summary=st.data["other_summary"],
                     tests="\n\n".join(f"`{name}`:\n```python\n{src.strip()}\n```" for name, src in tests.items()),
                     previous_failure=previous_failure)
-                st.step("message", round=n, to_session=session_id)
-                reply = deliver(wt, session_id, message)
+                ao_session = orchestrator.session_for_branch(side) if orchestrator.available() else None
+                st.step("message", round=n, to_session=session_id, via="orchestrator" if ao_session else "claude-resume")
+                reply = (orchestrator.deliver(repo, side, ao_session, message) if ao_session
+                         else deliver(wt, session_id, message))
                 session_id = reply["session_id"] or session_id
                 st.data["session_id"] = session_id
                 st.step("agent_replied", round=n, ok=reply["ok"], turns=reply["turns"], agent_cost_usd=reply["agent_cost_usd"])
