@@ -13,6 +13,8 @@ Built during [#neatHack](https://neatlogs.com/hackathon) (Oct 10-12, 2026) with 
 
 ---
 
+**#neatHack submission:** https://x.com/quantizationer/status/2109709745682870283
+
 ## The bug that motivated it (real, from our experiment)
 
 ![Git merged dollars into a cents codebase with no conflict](docs/media/silent_bug.png)
