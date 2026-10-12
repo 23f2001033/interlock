@@ -214,6 +214,6 @@ Confirmed requirements (neatlogs.com/hackathon, read 2026-10-10):
 - [x] Evidence in the repo: before/after runs, neatlogs traces (MCP pull), Entire checkpoints/graph output, the business plan, a recovered failure, dated commits (see `EVIDENCE.md`)
 - [ ] #neatHack post URLs added to `EVIDENCE.md`
 - [x] Submission post published https://x.com/quantizationer/status/2109710136713564248 (tags @neatlogs @EntireHQ @arithecfo). Quote post of the official @neatlogs launch post on X, **tagging @neatlogs, @EntireHQ and @arithecfo**, with team, project, repo and demo link: window **Mon Oct 12, 19:00 to ~23:55 IST** (final cutoff on Discord)
-- [ ] Submission form filled in (link shared at 19:00). Both steps are required (organizers' announcement, 2026-10-12)
+- [x] Submission form filled in and submitted (2026-10-12, builder confirmed). Both steps are required (organizers' announcement, 2026-10-12)
 
-Outstanding: cfo.ai screenshots, post URLs, the demo video, and the X quote post.
+Submitted on 2026-10-12: quote post https://x.com/quantizationer/status/2109710136713564248 plus the submission form. A 30 s slideshow demo (`interlock-demo.mp4`) was made from the result cards; the full scripted video was not recorded.
