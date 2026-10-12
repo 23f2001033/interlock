@@ -15,6 +15,8 @@ Built during [#neatHack](https://neatlogs.com/hackathon) (Oct 10-12, 2026) with 
 
 ## The bug that motivated it (real, from our experiment)
 
+![Git merged dollars into a cents codebase with no conflict](docs/media/silent_bug.png)
+
 We gave three Claude Code agents three tasks on the same small shop codebase: integer cents, a small-order fee, and a discount code. Each agent's branch passed its own tests (21 / 19 / 26). When git merged agent #1 and agent #2, it auto-merged these lines **without any conflict**:
 
 ```python
@@ -71,7 +73,11 @@ Everything is traced in **neatlogs**: workflow → agents (planner, intent, prov
 | Verification | An objective "passes alone, fails together" oracle, re-verification after every fix, the final suite on the target |
 | Iteration | Each proof or verification result chooses the next action (land, coordinate, retry, re-plan, escalate) |
 
-## Results so far
+## Results
+
+![Merge queue vs Interlock scoreboard](docs/media/scoreboard.png)
+
+![Landing three agent branches while a teammate pushes](docs/media/drift_timeline.png)
 
 | Run | What happened | Evidence |
 |---|---|---|
@@ -99,12 +105,20 @@ The demo environment and its agent branches (with their Entire checkpoints) are 
 
 ## How we used the hackathon tools
 
-- **neatlogs:** every Interlock run is traced (spans for plan/intent/prove/coordinate/land, every tool call, every model call with cost and cache hits). We used the traces to find failures and compare runs before and after each improvement; see [EVIDENCE.md](EVIDENCE.md).
-- **Entire:**
-  - *Inside the product:* `entire graph diff/impact` for planning, overlap and drift; `entire why --json` for each change's agent, session and original prompt; `entire session attach` to link coordinated commits back to the agent session.
-  - *While building:* every agent commit in the demo repo carries an Entire checkpoint, and the checkpoint refs are pushed for anyone to inspect.
-- **cfo.ai:** pricing, costs (measured cost per proof), revenue scenarios and runway. See [business-plan/](business-plan/).
-- Also used: **LiteLLM** (Nova + Claude, with a $20 budget enforced by Interlock's governor) and **Crustdata** (125,562 job postings since Jan 2026 mention AI coding tools, across ≥ 1,000 companies).
+- **neatlogs: to build, improve and monitor the agent**
+  - Every Interlock run is traced: spans for plan, intent, prove, coordinate, land and drift; every tool call (git, entire, pytest, claude); every model call, with LiteLLM cost and cache hits.
+  - **Four improvement loops** were each found in the traces and verified by comparing tagged eval runs ([EVIDENCE.md](EVIDENCE.md)).
+  - We read our traces back through the **neatlogs MCP** (`scripts/neatlogs_mcp.py`): the drift-demo trace (244 spans) is in [evidence/neatlogs/trace_drift_demo.md](evidence/neatlogs/trace_drift_demo.md).
+  - We created **neatlogs detections** for Interlock's recovery paths (fix round failed, intent test repaired, acceptance test arbitrated), which now fire on runs.
+  - The coding agents' own Claude Code sessions are traced too (neatlogs Claude Code integration in the demo repo).
+- **Entire: inside the product and while building**
+  - `entire graph diff/impact` drive planning, overlap and drift analysis.
+  - `entire why --json` gives each changed line's agent, session, model and original prompt. That is how Interlock knows whose intent to protect and which session to resume.
+  - `entire session attach` links coordinated commits back to the agent session.
+  - Every agent commit carries an Entire checkpoint; 9 checkpoint refs are public in [interlock-demo-shop](https://github.com/23f2001033/interlock-demo-shop).
+- **cfo.ai: the business plan:** pricing ($30/developer), costs from the **measured** 4.7¢ per checked pair, Base/Growth scenarios and runway ([business-plan/](business-plan/)).
+- **Orchestrator.inc:** `interlock` delivers fix requests with `ao send` when the branch belongs to an `ao` session, and falls back to resuming the Claude Code session otherwise (`src/interlock/orchestrator.py`).
+- **LiteLLM** (Nova + Claude, with Interlock's budget governor) and **Crustdata** (125,562 job postings since Jan 2026 mention AI coding tools, across ≥ 1,000 companies).
 
 ## Layout
 
@@ -120,5 +134,5 @@ hackathon.md     dated build log (official neatHack skill)
 ## Limitations
 
 - Python + pytest repos for now. The intent tests depend on the target having a runnable suite.
-- Coordination resumes Claude Code sessions. Other agents go through adapters (Orchestrator `ao send` is next).
+- Coordination resumes Claude Code sessions, or uses Orchestrator's `ao send` for `ao`-managed sessions. The `ao` path is implemented but has not yet run against a live Orchestrator daemon.
 - Ground-truth labels in the eval are human judgements, stated in `eval/scenarios.json`.

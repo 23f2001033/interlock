@@ -175,12 +175,27 @@ Status of each item:
 - Added the neatlogs Claude Code integration to the demo repo (`neatlogs-claude-code setup --project`): 15 hooks, with the key stored in the user config, **not** in the repo (checked). A headless agent turn ran normally with both the neatlogs and Entire hooks.
 - Unit tests: 5 passed.
 
-### Planned next (Sunday)
-- Builder: open the Agent Orchestrator app once, then exercise `ao spawn` + `ao send` end to end.
-- Builder: build the cfo.ai model from `business-plan/plan.md` and export or screenshot it into `business-plan/`.
-- Builder: screenshots of the neatlogs traces (`interlock.land` tree, `agent_message`, an eval run) into `evidence/`.
-- Builder: post the queued updates and add the URLs to `EVIDENCE.md`.
-- Record the demo video (script ready), then do the final gate against the rubric.
+### 2026-10-12 09:30-10:30: Evidence, business model and launch assets (completed)
+- Re-read neatlogs.com/hackathon and the official skill: **no changes** since 2026-10-10. Submission window: Mon Oct 12, 19:00 to about 23:55 IST; final cutoff announced on Discord.
+- **neatlogs MCP** (`scripts/neatlogs_mcp.py`, project key over `https://ingest.neatlogs.com/mcp`):
+  - pulled our traces back from neatlogs: 4 `interlock.land` traces; the drift demo is `01f31441…` with 244 spans → `evidence/neatlogs/`;
+  - created a detection group "Interlock" with 3 detections (`recover.next_round`, `recover.repair_test`, `arbitrate.reexpress`). Each was previewed first; after backfill they fire on the drift-demo trace.
+- **Business model** (`scripts/business_model.py`): a 12-month Base/Growth model driven by the measured $0.0474 per checked pair → `business-plan/model.csv` and `model_summary.md`.
+  - Base breaks even in month 7 (lowest cash $29,122); Growth in month 5.
+  - `plan.md` §6 is the cfo.ai data-entry sheet.
+- **Share cards** generated from the evidence files (`scripts/make_cards.py` → `docs/media/`): silent bug, agents talking, the agent saying no, scoreboard, drift timeline. They are embedded in the README.
+- **Tests run:** `pytest tests` 5 passed.
+- **Secrets scan:** 0 matches of any `.env` key in either repo.
+- Could not do from this session (no browser or computer-use connection):
+  - building the cfo.ai model in the web app;
+  - the Orchestrator desktop app's first run (the daemon didn't start headlessly), so the `ao send` path is still not exercised live;
+  - posting to X.
+
+### Remaining (builder)
+- Enter the cfo.ai model from `business-plan/plan.md` §6 and add the three screenshots.
+- Publish the queued posts with the `docs/media` cards and add the URLs to `EVIDENCE.md` §6.
+- Record the demo video (≤ 3:00).
+- Submit: a quote post of the official neatlogs post (19:00 to the Discord cutoff).
 
 ## Demo
 
@@ -193,10 +208,11 @@ Status of each item:
 ## Submission
 
 Confirmed requirements (neatlogs.com/hackathon, read 2026-10-10):
-- [ ] Public repo with commits dated during the event
+- [x] Public repo with commits dated during the event (first commit 2026-10-11 00:19 IST)
 - [ ] Demo video ≤ 3:00 covering neatlogs, Entire and cfo.ai: architecture, implementation, runtime, reasoning and result for each
-- [ ] cfo.ai business plan (pricing, costs, revenue, runway) included
-- [ ] Evidence in the repo: before/after runs, neatlogs traces, Entire checkpoints/graph output, the business plan, a recovered failure, #neatHack posts, dated commits
+- [~] Business plan (pricing, costs, revenue, runway) included in `business-plan/`. cfo.ai model screenshots still pending.
+- [x] Evidence in the repo: before/after runs, neatlogs traces (MCP pull), Entire checkpoints/graph output, the business plan, a recovered failure, dated commits (see `EVIDENCE.md`)
+- [ ] #neatHack post URLs added to `EVIDENCE.md`
 - [ ] Public quote post of the official neatlogs post on X with team, project name, repo and demo link: window opens **Mon Oct 12, 19:00 IST**, and the **final cutoff will be announced on Discord**
 
-Outstanding: everything above.
+Outstanding: cfo.ai screenshots, post URLs, the demo video, and the X quote post.

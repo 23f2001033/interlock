@@ -1,0 +1,44 @@
+{
+  "group_id": "a0f520d6-480b-42e9-8748-d5892438e798",
+  "detections": [
+    {
+      "name": "Interlock: fix round failed",
+      "span": "recover.next_round",
+      "result": {
+        "id": "2c06d4dc-f0e9-4182-8bf5-76b71efaf9af",
+        "slug": "custom_regex_1KMDQB24LJ",
+        "display_name": "Interlock: fix round failed",
+        "group_name": "Interlock",
+        "type": "regex",
+        "backfill_status": "pending",
+        "message": "Detection created. A 14-day backfill is running to score recent traces; it will appear scoring in the dashboard shortly."
+      }
+    },
+    {
+      "name": "Interlock: intent test repaired",
+      "span": "recover.repair_test",
+      "result": {
+        "id": "acaa9997-ac48-4223-aa0c-380bc01d9d5f",
+        "slug": "custom_regex_nxCY_Zhfdm",
+        "display_name": "Interlock: intent test repaired",
+        "group_name": "Interlock",
+        "type": "regex",
+        "backfill_status": "pending",
+        "message": "Detection created. A 14-day backfill is running to score recent traces; it will appear scoring in the dashboard shortly."
+      }
+    },
+    {
+      "name": "Interlock: acceptance test arbitrated",
+      "span": "arbitrate.reexpress",
+      "result": {
+        "id": "94adf626-59b3-479e-b114-08ca877900b8",
+        "slug": "custom_regex_75Fex2ckNZ",
+        "display_name": "Interlock: acceptance test arbitrated",
+        "group_name": "Interlock",
+        "type": "regex",
+        "backfill_status": "pending",
+        "message": "Detection created. A 14-day backfill is running to score recent traces; it will appear scoring in the dashboard shortly."
+      }
+    }
+  ]
+}

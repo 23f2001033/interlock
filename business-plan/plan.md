@@ -37,25 +37,42 @@ Why per developer: the value (prevented cross-PR regressions) grows with the num
 
 **Decision driven by the model:** inference is the only cost that grows with usage, so the margin depends on cost per check. That is why the improvement loops target it: the entire-graph pre-check (free for unrelated pairs) and the Haiku-first ladder cut cost per check from $0.065 to $0.047 (−28%) while raising precision from 0.67 to 1.0. See `EVIDENCE.md`.
 
-## 4. Scenarios (monthly, month 12)
+## 4. Scenarios (12 months; full monthly table in `model_summary.md` / `model.csv`)
+
+Months 1-3 are free design-partner pilots with 3 teams (costs, no revenue). Paid conversion starts in month 4.
 
 | | Base | Growth |
 |---|---|---|
-| Team customers | 40 | 120 |
-| Avg developers per customer | 10 | 12 |
-| MRR | $12,000 | $43,200 |
-| Infra + inference (COGS) | $1,920 | $6,600 |
+| Paying teams, month 12 | 40 (10 devs each) | 120 (12 devs each) |
+| MRR, month 12 | $12,000 (ARR $144k) | $43,200 (ARR $518k) |
+| COGS, month 12 (inference + hosting) | $1,918 | $6,665 |
 | Gross margin | 84% | 85% |
+| Break-even month | 7 | 5 |
+| Lowest cash | $29,122 (month 6) | $33,327 (month 4) |
+| Cash, month 12 | $45,978 | $127,688 |
 
 ## 5. Costs and runway
 
-- Team: solo founder now; first hire (founding engineer) once MRR reaches $10k.
-- Monthly burn before revenue: about $2,500 (founder stipend, infra, model credits, tools).
-- Starting cash: [to fill in cfo.ai] → runway = cash / net burn (computed in cfo.ai's Runway tab).
+- **Opex:** $4,500/month (founder stipend $3,000, tools $400, base infra $300, marketing and community $800). A founding engineer ($6,000/month) is added the month after MRR first reaches $15k (month 9 in Growth; not within 12 months in Base).
+- **Starting cash:** $50,000 (assumption, editable).
+- **Runway:** pre-revenue burn is about $4.6k/month, so ~10.8 months of runway with no revenue at all. In both scenarios cash never falls below $29k and the business is cash-flow positive by month 7 (Base) or month 5 (Growth).
+- **Biggest risk lever:** cost per check. At v2.0 costs ($0.065 per check) the Base margin drops to about 79% and break-even slips from month 7 to month 8. That is why the improvement loops target cost.
 
-## 6. cfo.ai checklist (builder)
+## 6. cfo.ai data-entry sheet (builder, ~10 minutes)
 
-1. Create the model "Interlock" with Base and Growth scenarios, using the inputs above.
-2. Unit economics tab: price per developer, proofs per customer, cost per proof ($0.062), hosting.
-3. Runway tab: burn and cash.
-4. Export or screenshot the three tabs into `business-plan/` and link them from the README.
+Create a model named **Interlock** and enter these drivers exactly (all are in `scripts/business_model.py`):
+
+| Driver | Base | Growth |
+|---|---|---|
+| Price per developer / month | $30 | $30 |
+| Developers per customer | 10 | 12 |
+| Paying customers: month 4 → month 12 | 4 → 40 (linear) | 6 → 120 (accelerating) |
+| Pilot customers, months 1-3 (no revenue) | 3 | 3 |
+| Inference cost per check (measured) | $0.0474 | $0.0474 |
+| Checks per developer / month | 80 | 80 |
+| Hosting per customer / month | $10 | $10 |
+| Opex / month | $4,500 | $4,500 |
+| Founding engineer | $6,000/month once MRR ≥ $15k | same |
+| Starting cash | $50,000 | $50,000 |
+
+Then screenshot (or export) the **Unit economics**, **Scenarios** and **Runway** views into this folder (`cfo-unit-economics.png`, `cfo-scenarios.png`, `cfo-runway.png`) and check the cfo.ai numbers against `model_summary.md`.

@@ -31,7 +31,11 @@ Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent bran
   - LLM spans from `neatlogs.wrap(OpenAI(...))`;
   - CHAIN spans `llm.<purpose>` with `interlock.cost_usd`, `interlock.cache_hit` and `interlock.tokens_in`.
 - Traces carry tags (`prove`, `resolve`, `land`, `eval`, `v1`/`v2`, version labels) for comparing runs.
-- Screenshots: *(to add: the `interlock.land` trace tree, the agent_message span with the fix request and reply, an eval before/after comparison)*
+- **Server-side proof, pulled through the neatlogs MCP** (`scripts/neatlogs_mcp.py`, no screenshot needed):
+  - [evidence/neatlogs/trace_drift_demo.md](evidence/neatlogs/trace_drift_demo.md): the drift-demo trace `01f314416618f766c98ba1f50110a89c` (244 spans, 208 tool calls, success) as a span tree;
+  - [evidence/neatlogs/mcp_pull.json](evidence/neatlogs/mcp_pull.json): `search_traces` results for `interlock.land`, `agent_message`, `arbitrate.reexpress`, `interlock.eval` and `cleared_by_graph`.
+- **Detections we created in neatlogs** (group "Interlock", [evidence/neatlogs/detections.json](evidence/neatlogs/detections.json)): *fix round failed* (`recover.next_round`), *intent test repaired* (`recover.repair_test`) and *acceptance test arbitrated* (`arbitrate.reexpress`). Each was previewed first and then backfilled; they already fire on the drift-demo trace.
+- **Coding agents traced too:** the neatlogs Claude Code integration is installed in the demo repo (`.claude/settings.json`, with the key kept in the user config, not the repo).
 
 ## 3. We used Entire
 
@@ -49,7 +53,9 @@ Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent bran
 
 ## 4. We used cfo.ai
 
-- `business-plan/plan.md` covers pricing, costs (measured cost per proof), revenue scenarios and runway. The cfo.ai model exports and screenshots will sit next to it. *(cfo.ai model: pending, builder)*
+- [business-plan/plan.md](business-plan/plan.md) covers pricing ($30/developer), unit economics from the **measured** $0.0474 per checked pair, Base/Growth scenarios, costs and runway (break-even month 7 / 5, lowest cash $29k / $33k).
+- The 12-month model is generated from the eval results by `scripts/business_model.py` → [model_summary.md](business-plan/model_summary.md) and [model.csv](business-plan/model.csv). The same drivers are entered into cfo.ai (data-entry sheet in plan.md §6).
+- cfo.ai views: `business-plan/cfo-unit-economics.png`, `cfo-scenarios.png`, `cfo-runway.png` *(builder adds)*.
 
 ## 5. The agent recovers from failures
 
@@ -68,7 +74,12 @@ Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent bran
 | # | Post | Link |
 |---|---|---|
 | 1 | "3 AI agents → 3 green PRs → merged → checkout broken" (X + LinkedIn) | *(add URL)* |
-| 2 | The bets / poll | *(add URL)* |
+| 2 | The experiment and the bets | *(add URL)* |
+| 3 | Result 1: git silently merged dollars into cents (`docs/media/silent_bug.png`) | *(add URL)* |
+| 4 | We made the agents talk to each other (`docs/media/agents_talk.png`) | *(add URL)* |
+| 5 | The agent said no, and it was right (`docs/media/agent_said_no.png`) | *(add URL)* |
+| 6 | Scoreboard: merge queue vs Interlock (`docs/media/scoreboard.png`) | *(add URL)* |
+| 7 | Landing while a teammate pushes (`docs/media/drift_timeline.png`) | *(add URL)* |
 
 ## 7. We wrote the code during the hackathon
 

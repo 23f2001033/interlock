@@ -1,0 +1,2159 @@
+{
+  "tools": [
+    "ping",
+    "whoami",
+    "log_trace",
+    "get_trace_context",
+    "search_traces",
+    "list_detections",
+    "get_detection_trend",
+    "list_detection_groups",
+    "create_detection_group",
+    "preview_detection",
+    "create_detection",
+    "get_trace_evaluations",
+    "get_project_analytics",
+    "get_detection_capabilities",
+    "get_detection_status",
+    "triage_list",
+    "triage_get",
+    "triage_get_investigation",
+    "triage_list_steps",
+    "triage_list_versions",
+    "triage_get_version",
+    "triage_accept",
+    "triage_dismiss",
+    "triage_update_status",
+    "triage_update",
+    "triage_restore_version"
+  ],
+  "whoami": {
+    "project_id": "c9e1ea41-1f89-4272-94b2-3f487a93c8d6",
+    "project_name": "AMAN's project",
+    "org_id": "651b3111-ac4a-43de-a25d-886639e1e4ba",
+    "project_repo": "",
+    "is_archived": false,
+    "tier": "free"
+  },
+  "search:interlock.land": {
+    "total": 4,
+    "totalRelation": "eq",
+    "mode": "keyword",
+    "results": [
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:46:06.654726Z",
+        "duration_ms": 154111,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "01f314416618f766c98ba1f50110a89c",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "01f314416618f766c98ba1f50110a89c",
+        "score": 1,
+        "workflow_name": "interlock.resolve",
+        "start_ts": "2026-10-10T21:46:00.455Z",
+        "total_duration": 154111,
+        "span_count": 244,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "6a586eaf65930724",
+            "span_name": "interlock.land",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.land"
+          },
+          {
+            "span_id": "ca2b8f1109525f54",
+            "span_name": "land.agent/issue-4",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-4"
+          },
+          {
+            "span_id": "0d65042180348e14",
+            "span_name": "land.agent/issue-5",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-5"
+          },
+          {
+            "span_id": "2217ad927b6ae08b",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "dec70e8b4c1f6f26",
+            "span_name": "land.agent/issue-1",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-1"
+          },
+          {
+            "span_id": "736cbedd59545ae0",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "52151512c2dee159",
+            "span_name": "prove.interlock-drift",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-drift"
+          },
+          {
+            "span_id": "1c02979096014322",
+            "span_name": "interlock.resolve",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.resolve"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:06:48.882810Z",
+        "duration_ms": 11430,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "5ed784ab9872997759ef45d7fb236c7b",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "5ed784ab9872997759ef45d7fb236c7b",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:01:33.592Z",
+        "total_duration": 11430,
+        "span_count": 28,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "a19cdc3e624e8e61",
+            "span_name": "interlock.land",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.land"
+          },
+          {
+            "span_id": "b5397e1a7e8cfd8b",
+            "span_name": "land.agent/issue-2",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-2"
+          },
+          {
+            "span_id": "78b6d180c69b2942",
+            "span_name": "land.agent/issue-1",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-1"
+          },
+          {
+            "span_id": "91d4d72c00e5d1cd",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:02:22.903592Z",
+        "duration_ms": 244582,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "6f470bf124e60927f2a64bab4218f48a",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "6f470bf124e60927f2a64bab4218f48a",
+        "score": 1,
+        "workflow_name": "interlock.resolve",
+        "start_ts": "2026-10-10T21:02:16.872Z",
+        "total_duration": 244582,
+        "span_count": 196,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "cedfdc689b1446df",
+            "span_name": "interlock.land",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.land"
+          },
+          {
+            "span_id": "0c0d25bba104650b",
+            "span_name": "land.agent/issue-2",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-2"
+          },
+          {
+            "span_id": "545a8eb31612aeee",
+            "span_name": "land.agent/issue-1",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-1"
+          },
+          {
+            "span_id": "158c9a104adeacb1",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "ccd2cb3fae060be1",
+            "span_name": "prove.interlock-demo",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-demo"
+          },
+          {
+            "span_id": "637a785406b9c30b",
+            "span_name": "land.agent/issue-3",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-3"
+          },
+          {
+            "span_id": "3db88501d70b38a4",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "e1d01c0c2da00d39",
+            "span_name": "prove.interlock-demo",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-demo"
+          },
+          {
+            "span_id": "1f0dcb0715d99faa",
+            "span_name": "interlock.resolve",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.resolve"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:40:49.753750Z",
+        "duration_ms": 237022,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "You write ONE pytest test file that checks whether the intent of a code change still holds.\n\n## Change X (the change whose intent you must test)\nTask the author of X was given:\n# Represent money as integer cents end-to-end (#1)\n\nWe keep seeing 1-cent mismatches between quoted totals and what the gateway charges, because amounts are floats in dollars.\n\nSwitch the shop to integer cents everywhere: catalog prices, cart subtotal, shipping, tax, quote totals and order amounts should all be `int` cent",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "7393adbf44a784f977482b16a78e0be6",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "7393adbf44a784f977482b16a78e0be6",
+        "score": 0.05908031232984932,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:40:43.690Z",
+        "total_duration": 237022,
+        "span_count": 49,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "a627ae09cf0eaa57",
+            "span_name": "interlock.land",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.land"
+          },
+          {
+            "span_id": "5901819966eb4035",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "704323b92b21aef4",
+            "span_name": "prove.interlock-drift",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-drift"
+          }
+        ],
+        "detections": []
+      }
+    ]
+  },
+  "search:agent_message": {
+    "total": 4,
+    "totalRelation": "eq",
+    "mode": "keyword",
+    "results": [
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:46:06.654726Z",
+        "duration_ms": 154111,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "01f314416618f766c98ba1f50110a89c",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "01f314416618f766c98ba1f50110a89c",
+        "score": 1,
+        "workflow_name": "interlock.resolve",
+        "start_ts": "2026-10-10T21:46:00.455Z",
+        "total_duration": 154111,
+        "span_count": 244,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "16fa934984fb1830",
+            "span_name": "plan",
+            "span_type": "AGENT",
+            "snippet": "plan"
+          },
+          {
+            "span_id": "ca2b8f1109525f54",
+            "span_name": "land.agent/issue-4",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-4"
+          },
+          {
+            "span_id": "0d65042180348e14",
+            "span_name": "land.agent/issue-5",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-5"
+          },
+          {
+            "span_id": "01fc435b0dae474c",
+            "span_name": "planner",
+            "span_type": "AGENT",
+            "snippet": "planner"
+          },
+          {
+            "span_id": "a6d7c21f36d37821",
+            "span_name": "intent",
+            "span_type": "AGENT",
+            "snippet": "intent"
+          },
+          {
+            "span_id": "36e4248f91aa42f4",
+            "span_name": "drift",
+            "span_type": "AGENT",
+            "snippet": "drift"
+          },
+          {
+            "span_id": "dec70e8b4c1f6f26",
+            "span_name": "land.agent/issue-1",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-1"
+          },
+          {
+            "span_id": "5d24ff695cd434d0",
+            "span_name": "planner",
+            "span_type": "AGENT",
+            "snippet": "planner"
+          },
+          {
+            "span_id": "f7d9993f4100388c",
+            "span_name": "resolver",
+            "span_type": "AGENT",
+            "snippet": "resolver"
+          },
+          {
+            "span_id": "d76c4a866a404689",
+            "span_name": "intent",
+            "span_type": "AGENT",
+            "snippet": "intent"
+          },
+          {
+            "span_id": "2d5011abab700837",
+            "span_name": "prove.agent/issue-1",
+            "span_type": "AGENT",
+            "snippet": "prove.agent/issue-1"
+          },
+          {
+            "span_id": "52151512c2dee159",
+            "span_name": "prove.interlock-drift",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-drift"
+          },
+          {
+            "span_id": "a0019879ce678f53",
+            "span_name": "decide",
+            "span_type": "AGENT",
+            "snippet": "decide"
+          },
+          {
+            "span_id": "aaf44041973c6796",
+            "span_name": "agent_message",
+            "span_type": "AGENT",
+            "snippet": "agent_message"
+          },
+          {
+            "span_id": "ea97d231cc1f4760",
+            "span_name": "arbitrate.reexpress",
+            "span_type": "AGENT",
+            "snippet": "arbitrate.reexpress"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:02:22.903592Z",
+        "duration_ms": 244582,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "6f470bf124e60927f2a64bab4218f48a",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "6f470bf124e60927f2a64bab4218f48a",
+        "score": 1,
+        "workflow_name": "interlock.resolve",
+        "start_ts": "2026-10-10T21:02:16.872Z",
+        "total_duration": 244582,
+        "span_count": 196,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "831d6951e887e947",
+            "span_name": "plan",
+            "span_type": "AGENT",
+            "snippet": "plan"
+          },
+          {
+            "span_id": "0c0d25bba104650b",
+            "span_name": "land.agent/issue-2",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-2"
+          },
+          {
+            "span_id": "545a8eb31612aeee",
+            "span_name": "land.agent/issue-1",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-1"
+          },
+          {
+            "span_id": "3ca2219f1363fc8a",
+            "span_name": "planner",
+            "span_type": "AGENT",
+            "snippet": "planner"
+          },
+          {
+            "span_id": "c543b9a857bc1aa0",
+            "span_name": "intent",
+            "span_type": "AGENT",
+            "snippet": "intent"
+          },
+          {
+            "span_id": "9f44a826d5528d7c",
+            "span_name": "prove.agent/issue-1",
+            "span_type": "AGENT",
+            "snippet": "prove.agent/issue-1"
+          },
+          {
+            "span_id": "6798fab3bee5b5bd",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026the author of X was given:\n(no recorded agent prompt: change made by a human; infer the intent from the diff)\n\nDiff of X against the common base:\n```diff\n\n```\n\n\u2026"
+          },
+          {
+            "span_id": "5ed129f6f410e139",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026the author of X was given:\n(no recorded agent prompt: change made by a human; infer the intent from the diff)\n\nDiff of X against the common base:\n```diff\n\n```\n\n\u2026"
+          },
+          {
+            "span_id": "ccd2cb3fae060be1",
+            "span_name": "prove.interlock-demo",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-demo"
+          },
+          {
+            "span_id": "3e21f6606ed1fd3a",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026the author of Y was given:\n(no recorded agent prompt: change made by a human; infer the intent from the diff)\n\nSource diff of Y against the common base:\n```diff\u2026"
+          },
+          {
+            "span_id": "8cffa58c3445687d",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026the author of Y was given:\n(no recorded agent prompt: change made by a human; infer the intent from the diff)\n\nSource diff of Y against the common base:\n```diff\u2026"
+          },
+          {
+            "span_id": "637a785406b9c30b",
+            "span_name": "land.agent/issue-3",
+            "span_type": "CHAIN",
+            "snippet": "land.agent/issue-3"
+          },
+          {
+            "span_id": "0c00edca0f8b4101",
+            "span_name": "planner",
+            "span_type": "AGENT",
+            "snippet": "planner"
+          },
+          {
+            "span_id": "0ef66af05a7fe2be",
+            "span_name": "resolver",
+            "span_type": "AGENT",
+            "snippet": "resolver"
+          },
+          {
+            "span_id": "444d416c22cb17ce",
+            "span_name": "intent",
+            "span_type": "AGENT",
+            "snippet": "intent"
+          },
+          {
+            "span_id": "b8da2fc518cfc65c",
+            "span_name": "prove.agent/issue-3",
+            "span_type": "AGENT",
+            "snippet": "prove.agent/issue-3"
+          },
+          {
+            "span_id": "e1d01c0c2da00d39",
+            "span_name": "prove.interlock-demo",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-demo"
+          },
+          {
+            "span_id": "6359f824695aee25",
+            "span_name": "decide",
+            "span_type": "AGENT",
+            "snippet": "decide"
+          },
+          {
+            "span_id": "1ac0155ac315a2ba",
+            "span_name": "agent_message",
+            "span_type": "AGENT",
+            "snippet": "agent_message"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:40:49.753750Z",
+        "duration_ms": 237022,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "You write ONE pytest test file that checks whether the intent of a code change still holds.\n\n## Change X (the change whose intent you must test)\nTask the author of X was given:\n# Represent money as integer cents end-to-end (#1)\n\nWe keep seeing 1-cent mismatches between quoted totals and what the gateway charges, because amounts are floats in dollars.\n\nSwitch the shop to integer cents everywhere: catalog prices, cart subtotal, shipping, tax, quote totals and order amounts should all be `int` cent",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "7393adbf44a784f977482b16a78e0be6",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "7393adbf44a784f977482b16a78e0be6",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:40:43.690Z",
+        "total_duration": 237022,
+        "span_count": 49,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "f0b2a10a1d937296",
+            "span_name": "planner",
+            "span_type": "AGENT",
+            "snippet": "planner"
+          },
+          {
+            "span_id": "bade7e9334248f31",
+            "span_name": "intent",
+            "span_type": "AGENT",
+            "snippet": "intent"
+          },
+          {
+            "span_id": "704323b92b21aef4",
+            "span_name": "prove.interlock-drift",
+            "span_type": "AGENT",
+            "snippet": "prove.interlock-drift"
+          },
+          {
+            "span_id": "5650c1bd87e751c3",
+            "span_name": "decide",
+            "span_type": "AGENT",
+            "snippet": "decide"
+          },
+          {
+            "span_id": "8f2bf47257991639",
+            "span_name": "agent_message",
+            "span_type": "AGENT",
+            "snippet": "agent_message"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T20:08:43.114228Z",
+        "duration_ms": 106508,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "Summarize what this code change does to shared behavior that OTHER code may depend on\n(units, signatures, return values, constants, semantics). 3 short bullet points, concrete\n(name the functions/constants and the before -> after). No preamble.\n\nTask the author was given:\n# Represent money as integer cents end-to-end (#1)\n\nWe keep seeing 1-cent mismatches between quoted totals and what the gateway charges, because amounts are floats in dollars.\n\nSwitch the shop to integer cents everywhere: catal",
+        "output_preview": "",
+        "root_span_name": "interlock.resolve",
+        "session_id": "f3783cd8ea5008523e0a0c78dd7264e7",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "f3783cd8ea5008523e0a0c78dd7264e7",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T20:08:37.870Z",
+        "total_duration": 106508,
+        "span_count": 86,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "7ac42da6f544c2c2",
+            "span_name": "planner",
+            "span_type": "AGENT",
+            "snippet": "planner"
+          },
+          {
+            "span_id": "3347c31d8c6009ba",
+            "span_name": "resolver",
+            "span_type": "AGENT",
+            "snippet": "resolver"
+          },
+          {
+            "span_id": "b19c3896689dcb74",
+            "span_name": "intent",
+            "span_type": "AGENT",
+            "snippet": "intent"
+          },
+          {
+            "span_id": "c2f60efba5f6a7c3",
+            "span_name": "prove.agent/issue-2",
+            "span_type": "AGENT",
+            "snippet": "prove.agent/issue-2"
+          },
+          {
+            "span_id": "3775c6b64cdf0dfc",
+            "span_name": "prove.agent/issue-1",
+            "span_type": "AGENT",
+            "snippet": "prove.agent/issue-1"
+          },
+          {
+            "span_id": "d52d06410da2d8bb",
+            "span_name": "decide",
+            "span_type": "AGENT",
+            "snippet": "decide"
+          },
+          {
+            "span_id": "0dbf37eca73615a6",
+            "span_name": "claude-haiku",
+            "span_type": "LLM",
+            "snippet": "\u2026ents hold after integration.\n\nChange A (agent/issue-2) was asked to:\n# Add a small-order fee (#2)\n\nOrders with a subtotal under $15.00 should pay a $1.50 small-\u2026"
+          },
+          {
+            "span_id": "4c89928f194e05a0",
+            "span_name": "llm.who_adapts",
+            "span_type": "CHAIN",
+            "snippet": "\u2026ents hold after integration.\n\nChange A (agent/issue-2) was asked to:\n# Add a small-order fee (#2)\n\nOrders with a subtotal under $15.00 should pay a $1.50 small-\u2026"
+          },
+          {
+            "span_id": "e0bd9a3a97337a4c",
+            "span_name": "agent_message",
+            "span_type": "AGENT",
+            "snippet": "agent_message"
+          }
+        ],
+        "detections": []
+      }
+    ]
+  },
+  "search:arbitrate.reexpress": {
+    "total": 1,
+    "totalRelation": "eq",
+    "mode": "keyword",
+    "results": [
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:46:06.654726Z",
+        "duration_ms": 154111,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "01f314416618f766c98ba1f50110a89c",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "01f314416618f766c98ba1f50110a89c",
+        "score": 1,
+        "workflow_name": "interlock.resolve",
+        "start_ts": "2026-10-10T21:46:00.455Z",
+        "total_duration": 154111,
+        "span_count": 244,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "ea97d231cc1f4760",
+            "span_name": "arbitrate.reexpress",
+            "span_type": "AGENT",
+            "snippet": "arbitrate.reexpress"
+          }
+        ],
+        "detections": []
+      }
+    ]
+  },
+  "search:interlock.eval": {
+    "total": 5,
+    "totalRelation": "eq",
+    "mode": "keyword",
+    "results": [
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:17:38.710004Z",
+        "duration_ms": 295700,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v2",
+        "session_id": "08f56123fad117720464200602a2e037",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "08f56123fad117720464200602a2e037",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:17:32.613Z",
+        "total_duration": 295700,
+        "span_count": 498,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "344eab812c12b010",
+            "span_name": "interlock.eval.v2",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.eval.v2"
+          },
+          {
+            "span_id": "d386aa60578253a6",
+            "span_name": "eval.fee_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.fee_x_cents"
+          },
+          {
+            "span_id": "da8d75b8136c7ae9",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "7f02a03be55a2e2d",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "a5117ef459b208b3",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "8fb99b17e8f11478",
+            "span_name": "eval.save10_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_cents"
+          },
+          {
+            "span_id": "be61a9b13a89724a",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "0bc0b1dcdff2b006",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "2e0999392abd9b9e",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "bdfda672d14b5f0f",
+            "span_name": "eval.save10_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_fee"
+          },
+          {
+            "span_id": "9d5817c993296a30",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "b5b9352694c6ea20",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "bd4cec67dfd71b0b",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "331676e72153ee64",
+            "span_name": "eval.region_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_cents"
+          },
+          {
+            "span_id": "1d6bdf70b42d07f7",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "6274158ca074f91f",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "27aec981252d509f",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "2010d9c4748135ac",
+            "span_name": "eval.region_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_fee"
+          },
+          {
+            "span_id": "a53ac127e0a84cc0",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "3900ab3e04e78b89",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "b1dfd9448d940618",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "410eba9852a4796a",
+            "span_name": "eval.currency_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_cents"
+          },
+          {
+            "span_id": "8174cccab1b4a04e",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "65d2b1c8187c833d",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "a682f075154c96c1",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "d4410eb9e4423c60",
+            "span_name": "eval.currency_x_region",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_region"
+          },
+          {
+            "span_id": "278ab2f494e53347",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "18475aeb6b7ee7ca",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "9f74e17d91383239",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "4da33fb5ba08988f",
+            "span_name": "eval.currency_x_save10",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_save10"
+          },
+          {
+            "span_id": "b32ee7ba61322262",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "7cc2951d36c641cf",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "08015d3ff0987dec",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-11T06:47:25.678384Z",
+        "duration_ms": 275956,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v2",
+        "session_id": "1307cf576e396cf09cc13ab4f4c7f459",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "1307cf576e396cf09cc13ab4f4c7f459",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:23:56.233Z",
+        "total_duration": 275956,
+        "span_count": 495,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "4a12764011bd483d",
+            "span_name": "interlock.eval.v2",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.eval.v2"
+          },
+          {
+            "span_id": "e31af4e7328bec38",
+            "span_name": "eval.fee_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.fee_x_cents"
+          },
+          {
+            "span_id": "7acf0d128ea29028",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "522dda292bba474b",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "e8c49dbaa83e3ac3",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "1fe2e14909b294df",
+            "span_name": "eval.save10_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_cents"
+          },
+          {
+            "span_id": "1e0e1d7ef5c94e11",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "629a0c2bc1102c0d",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "04d8de956e9c81a2",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "b68a5616ca030295",
+            "span_name": "eval.save10_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_fee"
+          },
+          {
+            "span_id": "4990625f69a2883a",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "705ee4c5baba148f",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "4f53338d117828c3",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "f6b42a55d9564590",
+            "span_name": "eval.region_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_cents"
+          },
+          {
+            "span_id": "da96020714352289",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "a43067faebe4424a",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "691368b747bbd51c",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "57f6bdb8bfc6c7f1",
+            "span_name": "eval.region_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_fee"
+          },
+          {
+            "span_id": "1f70b323f0003c67",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "d49b7cc12071a74b",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "d1a3998d68f1936d",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "c484b0e25e4ebba2",
+            "span_name": "eval.currency_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_cents"
+          },
+          {
+            "span_id": "777e9da1a43face2",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "b0687ca38dd392a8",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "9bad203b740f0de5",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "c24c12f0c8deeb4b",
+            "span_name": "eval.currency_x_region",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_region"
+          },
+          {
+            "span_id": "4217f867690d0adb",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "88b2e783e1cee7ad",
+            "span_name": "eval.currency_x_save10",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_save10"
+          },
+          {
+            "span_id": "1d73cb756455c24f",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "0f8ef63aed694399",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "5cdb1ee01c55ac6c",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:25:20.745015Z",
+        "duration_ms": 61386,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v1",
+        "session_id": "76920b1f573a70155d7685af4cdffe1b",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "76920b1f573a70155d7685af4cdffe1b",
+        "score": 1,
+        "workflow_name": "interlock.eval.v1",
+        "start_ts": "2026-10-10T21:16:29.044Z",
+        "total_duration": 61386,
+        "span_count": 93,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "1639b6198df096c5",
+            "span_name": "interlock.eval.v1",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.eval.v1"
+          },
+          {
+            "span_id": "de6128715e5e0fea",
+            "span_name": "eval.fee_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.fee_x_cents"
+          },
+          {
+            "span_id": "da9e30d586ff6307",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026otal: int, region: str) -> int:\n>>>>>>> eval/cents\n    if region not in TAX_RATES:\n        raise ValueError(f\"unsupported region: {region}\")\n    return apply_ra\u2026"
+          },
+          {
+            "span_id": "5d045d5368e08d54",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026otal: int, region: str) -> int:\n>>>>>>> eval/cents\n    if region not in TAX_RATES:\n        raise ValueError(f\"unsupported region: {region}\")\n    return apply_ra\u2026"
+          },
+          {
+            "span_id": "69d60794dd195111",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026x\": 290,\n        \"total\": 4788,\n>>>>>>> eval/cents\n    }\n\n\ndef test_quote_amounts_are_int_cents():\n    cart = Cart()\n    cart.add(\"TEE-01\", 3)\n    cart.add(\"BAG\u2026"
+          },
+          {
+            "span_id": "b7843c1b06c447d2",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026x\": 290,\n        \"total\": 4788,\n>>>>>>> eval/cents\n    }\n\n\ndef test_quote_amounts_are_int_cents():\n    cart = Cart()\n    cart.add(\"TEE-01\", 3)\n    cart.add(\"BAG\u2026"
+          },
+          {
+            "span_id": "0bdd4f346025db0c",
+            "span_name": "eval.save10_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_cents"
+          },
+          {
+            "span_id": "40fe4ef9ed8cc18a",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026ents\n    total: int  # US cents\n>>>>>>> eval/cents\n    charge_id: str\n\n\ndef place_order(\n    cart: Cart, customer_id: str, region: str, gateway: PaymentGateway,\u2026"
+          },
+          {
+            "span_id": "ccebd8f708914db9",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026ents\n    total: int  # US cents\n>>>>>>> eval/cents\n    charge_id: str\n\n\ndef place_order(\n    cart: Cart, customer_id: str, region: str, gateway: PaymentGateway,\u2026"
+          },
+          {
+            "span_id": "cba7badd426d0c4c",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026(on the subtotal) and total.\"\"\"\n>>>>>>> eval/cents\n    subtotal = cart.subtotal()\n    discount = discount_for(subtotal, code)\n    shipping = shipping_for(subtot\u2026"
+          },
+          {
+            "span_id": "edd06b4735f3e917",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026(on the subtotal) and total.\"\"\"\n>>>>>>> eval/cents\n    subtotal = cart.subtotal()\n    discount = discount_for(subtotal, code)\n    shipping = shipping_for(subtot\u2026"
+          },
+          {
+            "span_id": "758677586916af33",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026x\": 290,\n        \"total\": 4788,\n>>>>>>> eval/cents\n    }\n\n\ndef test_quote_amounts_are_int_cents():\n    cart = Cart()\n    cart.add(\"TEE-01\", 3)\n    cart.add(\"BAG\u2026"
+          },
+          {
+            "span_id": "8f824c403e9eab94",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026x\": 290,\n        \"total\": 4788,\n>>>>>>> eval/cents\n    }\n\n\ndef test_quote_amounts_are_int_cents():\n    cart = Cart()\n    cart.add(\"TEE-01\", 3)\n    cart.add(\"BAG\u2026"
+          },
+          {
+            "span_id": "442f5919e45e264a",
+            "span_name": "eval.save10_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_fee"
+          },
+          {
+            "span_id": "0570cce43cefaced",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u20260\nSMALL_ORDER_THRESHOLD = 15.00\n>>>>>>> eval/fee\n\n\ndef shipping_for(subtotal: float) -> float:\n    return 0.0 if subtotal >= FREE_SHIPPING_THRESHOLD else SHIPPI\u2026"
+          },
+          {
+            "span_id": "fc149e12ee6953b4",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u20260\nSMALL_ORDER_THRESHOLD = 15.00\n>>>>>>> eval/fee\n\n\ndef shipping_for(subtotal: float) -> float:\n    return 0.0 if subtotal >= FREE_SHIPPING_THRESHOLD else SHIPPI\u2026"
+          },
+          {
+            "span_id": "89c616cf4d1c151e",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026r, quote, shipping_for, tax_for\n>>>>>>> eval/fee\n\n\ndef test_flat_shipping_below_threshold():\n    assert shipping_for(49.99) == 5.00\n\n\ndef test_free_shipping_at_\u2026"
+          },
+          {
+            "span_id": "cbd73b801954cce7",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026r, quote, shipping_for, tax_for\n>>>>>>> eval/fee\n\n\ndef test_flat_shipping_below_threshold():\n    assert shipping_for(49.99) == 5.00\n\n\ndef test_free_shipping_at_\u2026"
+          },
+          {
+            "span_id": "34d6e595a78e95ac",
+            "span_name": "eval.region_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_cents"
+          },
+          {
+            "span_id": "d8008cccbafea9e5",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026al\"] + q[\"shipping\"] + q[\"tax\"]\n>>>>>>> eval/cents\n\n\ndef test_quote_with_free_shipping():\n    cart = Cart()\n    cart.add(\"MUG-01\", 4)\n    q = quote(cart, \"US-NY\u2026"
+          },
+          {
+            "span_id": "dc15d2f43e87a1b6",
+            "span_name": "llm.resolve_conflict",
+            "span_type": "CHAIN",
+            "snippet": "\u2026al\"] + q[\"shipping\"] + q[\"tax\"]\n>>>>>>> eval/cents\n\n\ndef test_quote_with_free_shipping():\n    cart = Cart()\n    cart.add(\"MUG-01\", 4)\n    q = quote(cart, \"US-NY\u2026"
+          },
+          {
+            "span_id": "557fdff48413efd1",
+            "span_name": "eval.region_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_fee"
+          },
+          {
+            "span_id": "ddaee2083eaf2321",
+            "span_name": "eval.currency_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_cents"
+          },
+          {
+            "span_id": "45c4461198890e0b",
+            "span_name": "eval.currency_x_region",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_region"
+          },
+          {
+            "span_id": "a46a884d3acb36c6",
+            "span_name": "eval.currency_x_save10",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_save10"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-11T06:48:14.788325Z",
+        "duration_ms": 307179,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v2",
+        "session_id": "fac4de919af2e5181cd4636c7353ff01",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "fac4de919af2e5181cd4636c7353ff01",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:28:52.305Z",
+        "total_duration": 307179,
+        "span_count": 520,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "24d3d7cd52e6b252",
+            "span_name": "eval.fee_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.fee_x_cents"
+          },
+          {
+            "span_id": "7cbf5b4286825c76",
+            "span_name": "interlock.eval.v2",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.eval.v2"
+          },
+          {
+            "span_id": "b680f9981ca95054",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "fc3b712906b3a4c1",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "c79a5195d0519b87",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "19cd8e0903a5adfd",
+            "span_name": "eval.save10_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_cents"
+          },
+          {
+            "span_id": "16261cfd3cc9be0c",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "0e4233697f111c72",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "cf25a1810b29f7b6",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "12ffe026c0bd69e1",
+            "span_name": "eval.save10_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_fee"
+          },
+          {
+            "span_id": "026363411503624b",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "36d77083c495a88f",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "ac8565aeb24b3dde",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "155742154b4fb5ce",
+            "span_name": "eval.region_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_cents"
+          },
+          {
+            "span_id": "64f1b8617b449178",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "87226d32deeefb7c",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "0f05bdb07c78ae97",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "0067ba0b45e3fa31",
+            "span_name": "eval.region_x_fee",
+            "span_type": "CHAIN",
+            "snippet": "eval.region_x_fee"
+          },
+          {
+            "span_id": "2b7037f780d62fb3",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "4a1f210b5eb4e00b",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "b1912e26989e8a8a",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "3d57ebc4946dd047",
+            "span_name": "eval.currency_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_cents"
+          },
+          {
+            "span_id": "21f25a957516b84b",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "9ab5af588f9ee9af",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "64c615ee269c75c0",
+            "span_name": "prove.eval/cents",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/cents"
+          },
+          {
+            "span_id": "2380338c071bbb9b",
+            "span_name": "eval.currency_x_region",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_region"
+          },
+          {
+            "span_id": "e9fc5eaa96b1f0c8",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "3ec3396a5ecdab4a",
+            "span_name": "eval.currency_x_save10",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_save10"
+          },
+          {
+            "span_id": "d258ced023c6c8d1",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "058c36754286cbd5",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "28a2511b18e227b8",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:34:20.890273Z",
+        "duration_ms": 367269,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "You write ONE pytest test file that checks whether the intent of a code change still holds.\n\n## Change X (the change whose intent you must test)\nTask the author of X was given:\n# Add a small-order fee (#2)\n\nOrders with a subtotal under $15.00 should pay a $1.50 small-order fee.\n\nShow it as a separate `fee` entry in the quote and include it in the total. Tax still applies to the subtotal only. Add tests.\n\nDiff of X against the common base:\n```diff\ndiff --git a/shop/pricing.py b/shop/pricing.py\nin",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v2",
+        "session_id": "29dccad88b5ceb055c2ef2609443931e",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "29dccad88b5ceb055c2ef2609443931e",
+        "score": 0.17619290637160342,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:34:14.569Z",
+        "total_duration": 367269,
+        "span_count": 106,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "2b37a1afcca5cbac",
+            "span_name": "interlock.eval.v2",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.eval.v2"
+          },
+          {
+            "span_id": "6d5a30b9b6d3f079",
+            "span_name": "prove.eval/fee",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/fee"
+          },
+          {
+            "span_id": "09ce705532daaa56",
+            "span_name": "eval.save10_x_cents",
+            "span_type": "CHAIN",
+            "snippet": "eval.save10_x_cents"
+          },
+          {
+            "span_id": "744f9547b839f226",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "3c6072eb6a3e4c39",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "f3827e67d8d8b806",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          },
+          {
+            "span_id": "791271b6d7e33a4f",
+            "span_name": "prove.eval/region",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/region"
+          },
+          {
+            "span_id": "9232e473664732ff",
+            "span_name": "prove.eval/currency",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/currency"
+          },
+          {
+            "span_id": "d900ab3cfcd6e56b",
+            "span_name": "eval.currency_x_save10",
+            "span_type": "CHAIN",
+            "snippet": "eval.currency_x_save10"
+          },
+          {
+            "span_id": "988f2b447fb6d824",
+            "span_name": "interlock.prove",
+            "span_type": "WORKFLOW",
+            "snippet": "interlock.prove"
+          },
+          {
+            "span_id": "ae23563c5220731c",
+            "span_name": "prove.eval/save10",
+            "span_type": "AGENT",
+            "snippet": "prove.eval/save10"
+          }
+        ],
+        "detections": []
+      }
+    ]
+  },
+  "search:cleared_by_graph": {
+    "total": 3,
+    "totalRelation": "eq",
+    "mode": "keyword",
+    "results": [
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-10T21:46:06.654726Z",
+        "duration_ms": 154111,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.land",
+        "session_id": "01f314416618f766c98ba1f50110a89c",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "01f314416618f766c98ba1f50110a89c",
+        "score": 1,
+        "workflow_name": "interlock.resolve",
+        "start_ts": "2026-10-10T21:46:00.455Z",
+        "total_duration": 154111,
+        "span_count": 244,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "4075cd20704ed873",
+            "span_name": "llm.confirm_intent",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "a17276b5b6f639e4",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "1124941566323eae",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "730552a4c66e1509",
+            "span_name": "llm.reexpress_acceptance",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-11T06:47:25.678384Z",
+        "duration_ms": 275956,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v2",
+        "session_id": "1307cf576e396cf09cc13ab4f4c7f459",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "1307cf576e396cf09cc13ab4f4c7f459",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:23:56.233Z",
+        "total_duration": 275956,
+        "span_count": 495,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "e8fb23ab9a3b83ac",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "3c079155ae7609de",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "81de4d588db7d935",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "85d33e5d47681ce1",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "c9c2af2781ca4c5f",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "f92fcdb3b4753994",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "4792e3fa36132f86",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "e59f865cd27f46b7",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "200cf397465b7e7a",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "98410eb8ad8db24b",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "978b1c9db505d6b3",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "869a2d9f9fc89214",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "af48f251dbcf74d4",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "1fc5084c2c5da09e",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "9e5f821fc3f3cb4f",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "eae9b6da13166baf",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "3be466ac2aba4f6e",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "ac09d9006daccb89",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "768f8f8f39f4820c",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "e26a34f850d67863",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "49a3b40606f4cc74",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "cbbaa5380f27cad8",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "830be9f02a1061fd",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "c188fd872dd29c34",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "52f9a298ab7e5b2f",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "94577d284fba2edb",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "7ba481dd71bb668b",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "f8211f2fb4033368",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          }
+        ],
+        "detections": []
+      },
+      {
+        "app_version": "1.4.26",
+        "cost_usd": 0,
+        "created_at": "2026-10-11T06:48:14.788325Z",
+        "duration_ms": 307179,
+        "environment": null,
+        "errored_span_count": 0,
+        "input_preview": "",
+        "output_preview": "",
+        "root_span_name": "interlock.eval.v2",
+        "session_id": "fac4de919af2e5181cd4636c7353ff01",
+        "status": "success",
+        "total_tokens": 0,
+        "trace_id": "fac4de919af2e5181cd4636c7353ff01",
+        "score": 1,
+        "workflow_name": "interlock.prove",
+        "start_ts": "2026-10-10T21:28:52.305Z",
+        "total_duration": 307179,
+        "span_count": 520,
+        "trace_input": "",
+        "trace_output": "",
+        "span_names": [],
+        "matched_spans": [
+          {
+            "span_id": "9f39ed06d70bd9bf",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "789832876f9a1e31",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "540f53f74592a488",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026    # We check that tax is NOT inflated by the fee\n    # In dollar terms: tax \u2248 1.89; in cent terms: tax = 189\n    assert tax == pytest.approx(1.89, abs=0.02) o\u2026"
+          },
+          {
+            "span_id": "d8c365a28baf0e71",
+            "span_name": "llm.confirm_intent",
+            "span_type": "CHAIN",
+            "snippet": "\u2026    # We check that tax is NOT inflated by the fee\n    # In dollar terms: tax \u2248 1.89; in cent terms: tax = 189\n    assert tax == pytest.approx(1.89, abs=0.02) o\u2026"
+          },
+          {
+            "span_id": "73417daddf04e481",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "e3198116623ca0ea",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "53f692792041c7db",
+            "span_name": "llm.confirm_intent",
+            "span_type": "CHAIN",
+            "snippet": "\u20260s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "8bdeaf1df8e2ffb2",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u20260s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "0c942bb04f47cf0a",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "b349d58397c82a85",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "31d5a750d2aab210",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u20261s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "4837781cf726b118",
+            "span_name": "llm.confirm_intent",
+            "span_type": "CHAIN",
+            "snippet": "\u20261s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "362a4b5b55aabbd6",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "58c67242c56784ef",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "0b424826711562de",
+            "span_name": "llm.confirm_intent",
+            "span_type": "CHAIN",
+            "snippet": "\u20260s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "3ff9839b86c9223f",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u20260s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "18a7f377280e0b0f",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "ba9a4917e394129e",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "feb3d741f33bd441",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "5b12c4bab754ec55",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/orders.py\n```python\n\"\"\"Placing orders.\"\"\"\n\nimport itertools\nfrom dataclasses import dataclass\n\n\u2026"
+          },
+          {
+            "span_id": "36917f52444c10ac",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "de46b7c2ccbbfe23",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "19d0329f532063f2",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u20268s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "ebc28aba1c01497f",
+            "span_name": "llm.confirm_intent",
+            "span_type": "CHAIN",
+            "snippet": "\u20268s\n\n```\n\nThe merged code (files touched by both changes):\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclas\u2026"
+          },
+          {
+            "span_id": "39d2ee1e466382f8",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "c7e990e6b2e4c261",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/cart.py\n```python\n\"\"\"Shopping cart.\"\"\"\n\nfrom shop.catalog import get_product, price_of\n\n\nclass \u2026"
+          },
+          {
+            "span_id": "220f8a45a0f1f023",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "4d03254a5e5d0191",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "375d5eadaeda48ef",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "5391f7dcbb18c054",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026 The merged code (X + Y), files touched by both changes\n### shop/pricing.py\n```python\n\"\"\"Shipping, tax and order quotes. All amounts are in US dollars.\"\"\"\n\nfrom\u2026"
+          },
+          {
+            "span_id": "ae3282e4825e84b8",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "8505171a29098095",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "df32811693d2392e",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "e1cc1d270c48b61f",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "711ded8ea1d62bc6",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "98a787c9ffc63563",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "54eb874591c1fec9",
+            "span_name": "claude-sonnet-4.6",
+            "span_type": "LLM",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          },
+          {
+            "span_id": "76f93321786aa4bb",
+            "span_name": "llm.synthesize_test",
+            "span_type": "CHAIN",
+            "snippet": "\u2026s made in. Give every `Charge` recorded by the `PaymentGateway` a `currency` (ISO code, default `\"USD\"`), and let callers of `charge()` pass a different currenc\u2026"
+          }
+        ],
+        "detections": []
+      }
+    ]
+  }
+}
