@@ -35,6 +35,7 @@ Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent bran
   - [evidence/neatlogs/trace_drift_demo.md](evidence/neatlogs/trace_drift_demo.md): the drift-demo trace `01f314416618f766c98ba1f50110a89c` (244 spans, 208 tool calls, success) as a span tree;
   - [evidence/neatlogs/mcp_pull.json](evidence/neatlogs/mcp_pull.json): `search_traces` results for `interlock.land`, `agent_message`, `arbitrate.reexpress`, `interlock.eval` and `cleared_by_graph`.
 - **Detections we created in neatlogs** (group "Interlock", [evidence/neatlogs/detections.json](evidence/neatlogs/detections.json)): *fix round failed* (`recover.next_round`), *intent test repaired* (`recover.repair_test`) and *acceptance test arbitrated* (`arbitrate.reexpress`). Each was previewed first and then backfilled; they already fire on the drift-demo trace.
+- **Dashboard screenshot:** [evidence/neatlogs/dashboard-traces.png](evidence/neatlogs/dashboard-traces.png): the Traces list with the Interlock detection badges (*acceptance test arbitrated*, *fix round failed*, *intent test repaired*) and a traced coding-agent session ("Reply with exactly: OK").
 - **Coding agents traced too:** the neatlogs Claude Code integration is installed in the demo repo (`.claude/settings.json`, with the key kept in the user config, not the repo).
 
 ## 3. We used Entire
