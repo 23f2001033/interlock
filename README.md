@@ -13,7 +13,7 @@ Built during [#neatHack](https://neatlogs.com/hackathon) (Oct 10-12, 2026) with 
 
 ---
 
-**#neatHack submission:** https://x.com/quantizationer/status/2109709745682870283
+**#neatHack submission:** https://x.com/quantizationer/status/2109710136713564248
 
 ## The bug that motivated it (real, from our experiment)
 

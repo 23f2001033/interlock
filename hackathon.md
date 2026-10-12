@@ -213,7 +213,7 @@ Confirmed requirements (neatlogs.com/hackathon, read 2026-10-10):
 - [~] Business plan (pricing, costs, revenue, runway) included in `business-plan/`. cfo.ai model screenshots still pending.
 - [x] Evidence in the repo: before/after runs, neatlogs traces (MCP pull), Entire checkpoints/graph output, the business plan, a recovered failure, dated commits (see `EVIDENCE.md`)
 - [ ] #neatHack post URLs added to `EVIDENCE.md`
-- [x] Submission post published https://x.com/quantizationer/status/2109709745682870283 (tags @neatlogs @EntireHQ @arithecfo). Quote post of the official @neatlogs launch post on X, **tagging @neatlogs, @EntireHQ and @arithecfo**, with team, project, repo and demo link: window **Mon Oct 12, 19:00 to ~23:55 IST** (final cutoff on Discord)
+- [x] Submission post published https://x.com/quantizationer/status/2109710136713564248 (tags @neatlogs @EntireHQ @arithecfo). Quote post of the official @neatlogs launch post on X, **tagging @neatlogs, @EntireHQ and @arithecfo**, with team, project, repo and demo link: window **Mon Oct 12, 19:00 to ~23:55 IST** (final cutoff on Discord)
 - [ ] Submission form filled in (link shared at 19:00). Both steps are required (organizers' announcement, 2026-10-12)
 
 Outstanding: cfo.ai screenshots, post URLs, the demo video, and the X quote post.

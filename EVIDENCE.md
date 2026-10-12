@@ -74,7 +74,7 @@ Same labelled suite each time (`eval/scenarios.json`: 8 pairs of real agent bran
 
 | # | Post | Link |
 |---|---|---|
-| 0 | **Submission post** (tags @neatlogs @EntireHQ @arithecfo) | https://x.com/quantizationer/status/2109709745682870283 |
+| 0 | **Submission quote post** of the official neatlogs launch post (tags @neatlogs @EntireHQ @arithecfo) | https://x.com/quantizationer/status/2109710136713564248 |
 | 1 | "3 AI agents → 3 green PRs → merged → checkout broken" (X + LinkedIn) | *(add URL)* |
 | 2 | The experiment and the bets | *(add URL)* |
 | 3 | Result 1: git silently merged dollars into cents (`docs/media/silent_bug.png`) | *(add URL)* |
